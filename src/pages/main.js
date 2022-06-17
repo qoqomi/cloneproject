@@ -1,8 +1,10 @@
+import Template from "../components/template";
+
 function Main() {
   return (
-    <div>
+    <Template>
       <h1>Main</h1>
-    </div>
+    </Template>
   );
 }
 

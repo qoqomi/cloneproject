@@ -1,8 +1,10 @@
+import Template from "../components/template";
+
 function ChatList() {
   return (
-    <div>
+    <Template>
       <h1>ChatList</h1>
-    </div>
+    </Template>
   );
 }
 

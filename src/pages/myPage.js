@@ -1,8 +1,10 @@
+import Template from "../components/template";
+
 function MyPage() {
   return (
-    <div>
+    <Template>
       <h1>MyPage</h1>
-    </div>
+    </Template>
   );
 }
 

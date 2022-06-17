@@ -1,8 +1,10 @@
+import LoginTemplate from "../components/loginTemplate";
+
 function Login() {
   return (
-    <div>
+    <LoginTemplate>
       <h1>Login</h1>
-    </div>
+    </LoginTemplate>
   );
 }
 
