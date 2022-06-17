@@ -18,7 +18,6 @@ const GlobalStyles = createGlobalStyle`
         
     }
     body{
-        padding-top : 90px;
         background-color:#F8F8F8;
         
     }
