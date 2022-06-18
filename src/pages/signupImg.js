@@ -1,0 +1,279 @@
+import LoginTemplate from "../components/loginTemplate";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { userInfototal } from "../modules/user.js";
+import { useDispatch } from "react-redux";
+import { signupAxios } from "../modules/user.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+function SignupImg() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const signData = useSelector((state) => state.user.signup);
+  const [files, setFiles] = React.useState("");
+  const [filesImg, setFilesImg] = React.useState("");
+  let frm = new FormData();
+
+  //fileReader
+  const reader = new FileReader();
+
+  const onChange = (e) => {
+    const file = e.target.files;
+
+    setFiles(file);
+    //fileReader
+    setFilesImg(e.target.files[0]);
+
+    reader.readAsDataURL(e.target.files[0]);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setFilesImg(reader.result);
+        resolve();
+      };
+    });
+  };
+
+  window.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+      signuptotalOnClick();
+    }
+  });
+
+  const signuptotalOnClick = async () => {
+    frm.append("userEmail", signData.userEmail);
+    frm.append("password", signData.password);
+    frm.append("userName", signData.userName);
+    frm.append("userAge", signData.userAge);
+    frm.append("imageUrl", files[0]);
+    dispatch(userInfototal(frm));
+
+    try {
+      await dispatch(signupAxios(frm)).then((res) => {
+        if (res === true) {
+          console.log(res);
+          navigate("/login");
+          alert("회원가입되었습니다!");
+        } else {
+          if (res.response.data.message === "the username already exists.") {
+            alert("이미 가입된 ID입니다!");
+            document.getElementById("SigninBtn").disabled = false;
+          } else if (res.response.data.errors[0] === undefined) {
+            alert("입력한 내용을 다시 확인해주세요!");
+            document.getElementById("SigninBtn").disabled = false;
+          } else {
+            alert(
+              res.response.data.errors[0].field +
+                "에 " +
+                res.response.data.errors[0].reason
+            );
+            document.getElementById("SigninBtn").disabled = false;
+          }
+        }
+      });
+    } catch (err) {
+      alert("에러입니다!" + err);
+    }
+  };
+
+  return (
+    <LoginTemplate>
+      <Form>
+        <Div>
+          {filesImg ? (
+            <ShowImg alt="sample" id="showImg" src={filesImg} />
+          ) : (
+            <NoShowImg
+              alt="sample"
+              id="showImg"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAMAAABX0UX9AAAAA1BMVEXi4uIvUCsuAAAASElEQVR4nO3BMQEAAADCoPVPbQ0PoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABODcYhAAEl463hAAAAAElFTkSuQmCC"
+            />
+          )}
+          {filesImg ? (
+            <Label>
+              <FontAwesomeIcon
+                icon={faXmark}
+                size="2x"
+                style={{ color: "white" }}
+              />
+              <input
+                name="imgUpload"
+                type="file"
+                id="add_img"
+                accept="image/*"
+                onChange={onChange}
+                style={{
+                  position: "absolute",
+                  width: 0,
+                  height: 0,
+                  padding: 0,
+                  overflow: "hidden",
+                  border: 0,
+                  backgroundColor: "green",
+                }}
+              />
+            </Label>
+          ) : (
+            <Label>
+              <FontAwesomeIcon
+                icon={faPlus}
+                size="2x"
+                style={{ color: "white" }}
+              />
+
+              <input
+                name="imgUpload"
+                type="file"
+                id="add_img"
+                accept="image/*"
+                onChange={onChange}
+                style={{
+                  position: "absolute",
+                  width: 0,
+                  height: 0,
+                  padding: 0,
+                  overflow: "hidden",
+                  border: 0,
+                  backgroundColor: "green",
+                }}
+              />
+            </Label>
+          )}
+        </Div>
+
+        <Button color="#fccb4f" id="SignUpBtn" onClick={signuptotalOnClick}>
+          Next
+        </Button>
+      </Form>
+    </LoginTemplate>
+  );
+}
+const Form = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+`;
+const Div = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+// const Container = styled.div`
+//   display: flex;
+//   justify-content: center;
+// `;
+// const File = styled.div`
+//   display: inline-block;
+//   height: 40px;
+//   padding: 0 7em;
+//   vertical-align: middle;
+//   border: 1px solid #dddddd;
+//   width: 78%;
+//   color: #999999;
+//   border-radius: 20px;
+// `;
+// const Label = styled.label`
+//   display: inline-block;
+//   width: 5em;
+//   color: #fff;
+//   vertical-align: middle;
+//   background-color: #999999;
+//   cursor: pointer;
+//   height: 40px;
+//   margin-left: 10px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   border-radius: 20px;
+// `;
+// const Input = styled.input`
+//   position: absolute;
+//   width: 0;
+//   height: 0;
+//   padding: 0;
+//   overflow: hidden;
+//   border: 0;
+// `;
+
+// const Next = styled.button`
+//   font-size: 18px;
+//   border-radius: 50px;
+//   margin-bottom: 15px;
+
+//   border: 1px solid black;
+//   padding: 18px;
+//   width: 20em;
+//   letter-spacing: 2px;
+//   background-color: transparent;
+//   color: black;
+//   :hover {
+//     box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.19);
+//   }
+// `;
+
+const ShowImg = styled.img`
+  position: relative;
+  width: 500px;
+  max-width: 85vw;
+  height: 60vh;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0px 18px 053px 0px rgba(0, 0, 0, 0.3);
+  object-fit: cover;
+  margin-bottom: 30px;
+`;
+
+const NoShowImg = styled.img`
+  position: relative;
+  width: 500px;
+  max-width: 85vw;
+  height: 60vh;
+  border-radius: 20px;
+  background-size: cover;
+  background-color: gray;
+  background-position: center;
+  box-shadow: 0px 18px 053px 0px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+  border: 6px;
+  border-style: dashed;
+  border-color: #d3d3d3;
+  margin-bottom: 30px;
+`;
+
+const Label = styled.label`
+  width: 40px;
+  height: 40px;
+  background-color: pink;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f8f8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ff3774, #ff8146);
+  background: linear-gradient(to right, #ff3774, #ff8146);
+`;
+
+const Button = styled.button`
+  font-size: 18px;
+  border-radius: 50px;
+  margin-bottom: 15px;
+  border: none;
+  padding: 18px;
+  width: 20em;
+  letter-spacing: 2px;
+  background-color: ${(props) => props.color};
+  color: white;
+  :hover {
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.19);
+  }
+  background: #f7f8f8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ff3774, #ff8146);
+  background: linear-gradient(to right, #ff3774, #ff8146);
+`;
+
+export default SignupImg;
