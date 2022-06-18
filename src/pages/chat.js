@@ -40,15 +40,15 @@ function Chat() {
     },
     {
       me: false,
-      message: "아 진짜요?",
+      message: "프론트엔드세요? 백엔드세요?",
+    },
+    {
+      me: true,
+      message: "리액트로 프론트엔드 하고 있어요!",
     },
     {
       me: false,
-      message: "아 진짜요?",
-    },
-    {
-      me: false,
-      message: "아 진짜요?",
+      message: "아하!",
     },
   ];
 
@@ -133,9 +133,10 @@ const ChatHeader = styled.section`
 
 const ChatArea = styled.section`
   width: 100%;
-  height: calc(100vh - 240px);
-  overflow-y: scroll;
+  height: calc(100vh - 250px);
+  overflow-y: auto;
   overflow-x: hidden;
+  margin-bottom: 10px;
 `;
 
 const ChatCoverYou = styled.div`
@@ -143,7 +144,6 @@ const ChatCoverYou = styled.div`
   height: fit-content;
   display: flex;
   margin-top: 10px;
-  margin-bottom: 10px;
 `;
 
 const ChatCoverMe = styled.div`
@@ -178,7 +178,7 @@ const Name = styled.p`
 `;
 
 const HeaderLine = styled.hr`
-  background-color: deepskyblue;
+  background-color: #ddd;
 `;
 
 const ChatProfileCover = styled.div`
