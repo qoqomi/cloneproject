@@ -20,9 +20,13 @@ const Container = styled.header`
 const Logo = styled.img`
   width: 30%;
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
+  @media screen and (max-width: 350px) {
+    top: 20%;
+    width: 40%;
+  }
 `;
 
 export default LoginHeader;
