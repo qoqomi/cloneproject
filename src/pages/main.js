@@ -29,15 +29,16 @@ const Div = styled.div`
   width: 500px;
   max-width: 85vw;
   height: 75vh;
-
+  box-shadow: 0px 18px 053px 0px rgba(0, 0, 0, 0.3);
+  //카드 부모
   background-size: cover;
   background-position: center;
-  box-shadow: 0px 18px 053px 0px rgba(0, 0, 0, 0.3);
   position: relative;
   overflow: hidden;
   border-radius: 20px;
 `;
 const OneCard = styled.div`
+  //자식
   position: absolute;
   width: 100%;
   height: 100%;

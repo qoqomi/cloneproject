@@ -7,7 +7,7 @@ import { userInfototal } from "../modules/user.js";
 import { useDispatch } from "react-redux";
 import { signupAxios } from "../modules/user.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 function SignupImg() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ function SignupImg() {
     setFilesImg(e.target.files[0]);
 
     reader.readAsDataURL(e.target.files[0]);
+
     return new Promise((resolve) => {
       reader.onload = () => {
         setFilesImg(reader.result);
@@ -90,10 +91,11 @@ function SignupImg() {
               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAMAAABX0UX9AAAAA1BMVEXi4uIvUCsuAAAASElEQVR4nO3BMQEAAADCoPVPbQ0PoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABODcYhAAEl463hAAAAAElFTkSuQmCC"
             />
           )}
+
           {filesImg ? (
             <Label>
               <FontAwesomeIcon
-                icon={faXmark}
+                icon={faArrowRotateLeft}
                 size="2x"
                 style={{ color: "white" }}
               />
@@ -160,58 +162,6 @@ const Div = styled.div`
   display: flex;
   justify-content: center;
 `;
-// const Container = styled.div`
-//   display: flex;
-//   justify-content: center;
-// `;
-// const File = styled.div`
-//   display: inline-block;
-//   height: 40px;
-//   padding: 0 7em;
-//   vertical-align: middle;
-//   border: 1px solid #dddddd;
-//   width: 78%;
-//   color: #999999;
-//   border-radius: 20px;
-// `;
-// const Label = styled.label`
-//   display: inline-block;
-//   width: 5em;
-//   color: #fff;
-//   vertical-align: middle;
-//   background-color: #999999;
-//   cursor: pointer;
-//   height: 40px;
-//   margin-left: 10px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   border-radius: 20px;
-// `;
-// const Input = styled.input`
-//   position: absolute;
-//   width: 0;
-//   height: 0;
-//   padding: 0;
-//   overflow: hidden;
-//   border: 0;
-// `;
-
-// const Next = styled.button`
-//   font-size: 18px;
-//   border-radius: 50px;
-//   margin-bottom: 15px;
-
-//   border: 1px solid black;
-//   padding: 18px;
-//   width: 20em;
-//   letter-spacing: 2px;
-//   background-color: transparent;
-//   color: black;
-//   :hover {
-//     box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.19);
-//   }
-// `;
 
 const ShowImg = styled.img`
   position: relative;
