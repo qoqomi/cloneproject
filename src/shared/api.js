@@ -8,7 +8,23 @@ const api = axios.create({
   },
 });
 
+const chatApi = axios.create({
+  baseURL: "http://localhost:5001/",
+  headers: {
+    "content-type": "application/json;charset=UTF-8",
+    accept: "application/json,",
+  },
+});
+
 api.interceptors.request.use(function (config) {
+  const accessToken = document.cookie.split("=")[1];
+  if (accessToken !== undefined) {
+    config.headers.common["token"] = `${accessToken}`;
+  }
+  return config;
+});
+
+chatApi.interceptors.request.use(function (config) {
   const accessToken = document.cookie.split("=")[1];
   if (accessToken !== undefined) {
     config.headers.common["token"] = `${accessToken}`;
@@ -22,4 +38,12 @@ export const apis = {
 
   // user
   login: (id, pw) => api.post("/user/login", { username: id, password: pw }),
+
+  // chat
+  loadChatList: (id) => chatApi.get(`/room/${id}`),
+  loadChat: (user, other) =>
+    chatApi.post("/room", {
+      user: user,
+      other: other,
+    }),
 };

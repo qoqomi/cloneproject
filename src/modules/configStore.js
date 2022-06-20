@@ -6,8 +6,9 @@ import logger from "redux-logger";
 // reducers
 import user from "./user";
 import people from "./people";
+import chatInfo from "./chatInfo";
 
-const rootReducer = combineReducers({ user, people });
+const rootReducer = combineReducers({ user, people, chatInfo });
 
 // logger 를 사용하는 경우, logger가 가장 마지막에 와야합니다.
 const middlewares = [thunk, logger];
