@@ -1,56 +1,83 @@
 import React from "react";
 import Template from "../components/template";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { initialChatAxios, chatSocket } from "../modules/chatInfo";
+import io from "socket.io-client";
 
 function Chat() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [inputCurrent, setInputCurrent] = React.useState("");
+  const location = useLocation();
+  const other = location.state.userId;
 
-  const chatlist = [
-    {
-      me: false,
-      message: "안녕하세요!",
-    },
-    {
-      me: false,
-      message: "저는 아이유라고 해요.",
-    },
-    {
-      me: true,
-      message: "반가워요!",
-    },
-    {
-      me: true,
-      message: "저는 김현빈이라고 해요.",
-    },
-    {
-      me: false,
-      message:
-        "청담동에 살고 있고, 직업은 가수이자 배우예요. 취미로는 작곡을 하고 있어요. 반가워요. 잘 부탁드려요.",
-    },
-    {
-      me: true,
-      message:
-        "안산에 살고 있고, 항해99를 하고 있어요. 취미는 엄청 다양한데 요즘은 매일 코딩만 하고 있어요 ㅠㅠㅠ",
-    },
-    {
-      me: false,
-      message: "아 진짜요?",
-    },
-    {
-      me: false,
-      message: "프론트엔드세요? 백엔드세요?",
-    },
-    {
-      me: true,
-      message: "리액트로 프론트엔드 하고 있어요!",
-    },
-    {
-      me: false,
-      message: "아하!",
-    },
-  ];
+  const id = "62ad35d9a3f46c2a79b8fb2c";
+
+  React.useEffect(() => {
+    dispatch(initialChatAxios());
+  }, []);
+
+  const socket = io.connect("http://localhost:8005/chat", {
+    path: "/socket/io",
+  });
+  socket.on("join", function (data) {
+    dispatch(chatSocket(data));
+  });
+
+  React.useEffect(() => {
+    return () => {
+      socket.close();
+    };
+  }, []);
+
+  const chatlist = useSelector((state) => state.chatInfo.chat);
+
+  // const chatlist = [
+  //   {
+  //     me: false,
+  //     message: "안녕하세요!",
+  //   },
+  //   {
+  //     me: false,
+  //     message: "저는 아이유라고 해요.",
+  //   },
+  //   {
+  //     me: true,
+  //     message: "반가워요!",
+  //   },
+  //   {
+  //     me: true,
+  //     message: "저는 김현빈이라고 해요.",
+  //   },
+  //   {
+  //     me: false,
+  //     message:
+  //       "청담동에 살고 있고, 직업은 가수이자 배우예요. 취미로는 작곡을 하고 있어요. 반가워요. 잘 부탁드려요.",
+  //   },
+  //   {
+  //     me: true,
+  //     message:
+  //       "안산에 살고 있고, 항해99를 하고 있어요. 취미는 엄청 다양한데 요즘은 매일 코딩만 하고 있어요 ㅠㅠㅠ",
+  //   },
+  //   {
+  //     me: false,
+  //     message: "아 진짜요?",
+  //   },
+  //   {
+  //     me: false,
+  //     message: "프론트엔드세요? 백엔드세요?",
+  //   },
+  //   {
+  //     me: true,
+  //     message: "리액트로 프론트엔드 하고 있어요!",
+  //   },
+  //   {
+  //     me: false,
+  //     message: "아하!",
+  //   },
+  // ];
 
   const changeInputState = (e) => {
     setInputCurrent(e.target.value);
@@ -81,13 +108,13 @@ function Chat() {
       <ChatArea>
         {chatlist.map((v, i) => {
           return v.me ? (
-            <ChatCoverMe>
+            <ChatCoverMe key={"chat" + i}>
               <ChattingCoverMe>
                 <Chatting>{v.message}</Chatting>
               </ChattingCoverMe>
             </ChatCoverMe>
           ) : (
-            <ChatCoverYou>
+            <ChatCoverYou key={"chat" + i}>
               <ChatProfileCover>
                 <ChatProfileImg src="https://newsimg.hankookilbo.com/cms/articlerelease/2021/05/17/b41ab909-e0e2-40e8-a36a-4bae809a9024.jpg" />
               </ChatProfileCover>

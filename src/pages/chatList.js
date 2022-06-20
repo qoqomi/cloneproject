@@ -1,46 +1,58 @@
 import Template from "../components/template";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import React from "react";
+import { ChatListAxios } from "../modules/chatInfo";
 
 function ChatList() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const chatlist = [
-    {
-      name: "아이유",
-      image:
-        "https://newsimg.hankookilbo.com/cms/articlerelease/2021/05/17/b41ab909-e0e2-40e8-a36a-4bae809a9024.jpg",
-    },
-    {
-      name: "장원영",
-      image:
-        "https://www.stnsports.co.kr/news/photo/202202/145737_116218_4258.jpg",
-    },
-    {
-      name: "윈터",
-      image:
-        "https://news.nateimg.co.kr/orgImg/hm/2021/11/04/202111042118469934178_20211104211913_01.jpg",
-    },
-    {
-      name: "루다",
-      image:
-        "https://cdn.spotvnews.co.kr/news/photo/202108/437773_555058_3401.jpg",
-    },
-    {
-      name: "김채원",
-      image:
-        "https://img.insight.co.kr/static/2019/09/24/700/x9v33u05o63uo9x6l48q.jpg",
-    },
-    {
-      name: "설윤",
-      image: "https://img.hankyung.com/photo/202205/BF.29962850.1.png",
-    },
-    {
-      name: "김채현",
-      image:
-        "http://www.newsinside.kr/news/photo/202201/1125242_802798_1814.jpg",
-    },
-  ];
+  const id = "62ad35d9a3f46c2a79b8fb2c";
+
+  React.useEffect(() => {
+    dispatch(ChatListAxios(id));
+  }, []);
+
+  const chatlist = useSelector((state) => state.chatInfo.list);
+
+  // const chatlist = [
+  //   {
+  //     name: "아이유",
+  //     image:
+  //       "https://newsimg.hankookilbo.com/cms/articlerelease/2021/05/17/b41ab909-e0e2-40e8-a36a-4bae809a9024.jpg",
+  //   },
+  //   {
+  //     name: "장원영",
+  //     image:
+  //       "https://www.stnsports.co.kr/news/photo/202202/145737_116218_4258.jpg",
+  //   },
+  //   {
+  //     name: "윈터",
+  //     image:
+  //       "https://news.nateimg.co.kr/orgImg/hm/2021/11/04/202111042118469934178_20211104211913_01.jpg",
+  //   },
+  //   {
+  //     name: "루다",
+  //     image:
+  //       "https://cdn.spotvnews.co.kr/news/photo/202108/437773_555058_3401.jpg",
+  //   },
+  //   {
+  //     name: "김채원",
+  //     image:
+  //       "https://img.insight.co.kr/static/2019/09/24/700/x9v33u05o63uo9x6l48q.jpg",
+  //   },
+  //   {
+  //     name: "설윤",
+  //     image: "https://img.hankyung.com/photo/202205/BF.29962850.1.png",
+  //   },
+  //   {
+  //     name: "김채현",
+  //     image:
+  //       "http://www.newsinside.kr/news/photo/202201/1125242_802798_1814.jpg",
+  //   },
+  // ];
 
   return (
     <Template>
@@ -51,19 +63,23 @@ function ChatList() {
       <ListArea>
         {chatlist.map((v, i) => {
           return (
-            <>
+            <div key={"chatlist" + i}>
               <ProfileCover
                 onClick={() => {
-                  navigate("/chat");
+                  navigate("/chat", {
+                    state: {
+                      userId: v.name,
+                    },
+                  });
                 }}
               >
-                <ProfileImg src={v.image} />
+                {/* <ProfileImg src={v.image} /> */}
                 <NameCover>
                   <Name>{v.name}</Name>
                 </NameCover>
               </ProfileCover>
               {chatlist.length - 1 === i ? null : <ProfileLine />}
-            </>
+            </div>
           );
         })}
       </ListArea>
