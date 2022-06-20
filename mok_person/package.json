@@ -1,9 +1,0 @@
-{
-  "name": "mok_person",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "json-server": "^0.17.0"
-  }
-}
