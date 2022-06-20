@@ -13,13 +13,13 @@ function Chat() {
   const location = useLocation();
   const other = location.state.userId;
 
-  const id = "62ad35d9a3f46c2a79b8fb2c";
+  const id = "62afc9b1d6296a59bd6f8989";
 
   React.useEffect(() => {
     dispatch(initialChatAxios());
   }, []);
 
-  const socket = io.connect("http://localhost:8005/chat", {
+  const socket = io.connect("http://sparta-swan.shop/chat", {
     path: "/socket/io",
   });
   socket.on("join", function (data) {

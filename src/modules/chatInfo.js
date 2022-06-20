@@ -31,7 +31,7 @@ export const ChatListAxios = (id) => {
     await apis
       .loadChatList(id)
       .then((chatList) => {
-        dispatch(loadChats(chatList));
+        dispatch(loadChats(chatList.data.member2));
       })
       .catch((err) => {
         console.log(err);

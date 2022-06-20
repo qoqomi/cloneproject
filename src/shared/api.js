@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const imgApi = axios.create({
-  baseURL: " http://15.165.160.107/",
+  baseURL: "http://15.165.160.107/",
   headers: {
     "content-type": "multipart/form-data",
   },
@@ -15,7 +15,7 @@ const api = axios.create({
 });
 
 const chatApi = axios.create({
-  baseURL: "http://localhost:5001/",
+  baseURL: "http://sparta-swan.shop/",
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
@@ -39,10 +39,10 @@ imgApi.interceptors.request.use(function (config) {
   const accessToken = `${localStorage.getItem("token")}`;
   if (accessToken !== undefined) {
     config.headers.common["authorization"] = `Bearer ${accessToken}`;
-    }
+  }
   return config;
 });
-    
+
 chatApi.interceptors.request.use(function (config) {
   const accessToken = document.cookie.split("=")[1];
   if (accessToken !== undefined) {
@@ -65,7 +65,7 @@ export const apis = {
   load: () => api.get("/api/recommends"),
 
   // chat
-  loadChatList: (id) => chatApi.get(`/room/${id}`),
+  loadChatList: (id) => chatApi.get(`/${id}`),
   loadChat: (user, other) =>
     chatApi.post("/room", {
       user: user,
