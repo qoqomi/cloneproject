@@ -44,7 +44,7 @@ imgApi.interceptors.request.use(function (config) {
 });
 
 chatApi.interceptors.request.use(function (config) {
-  const accessToken = document.cookie.split("=")[1];
+  const accessToken = `${localStorage.getItem("token")}`;
   if (accessToken !== undefined) {
     config.headers.common["token"] = `Bearer ${accessToken}`;
   }
@@ -63,6 +63,8 @@ export const apis = {
   signup: (frm) => imgApi.post("/api/users/signup", frm),
 
   load: () => api.get("/api/recommends"),
+
+  myInfo: () => api.get("/api/users/personal"),
 
   // chat
   loadChatList: (id) => chatApi.get(`/${id}`),
