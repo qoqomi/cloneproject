@@ -1,7 +1,13 @@
 import axios from "axios";
 
+const imgApi = axios.create({
+  baseURL: " http://15.165.160.107/",
+  headers: {
+    "content-type": "multipart/form-data",
+  },
+});
 const api = axios.create({
-  baseURL: "http://localhost:5001/",
+  baseURL: "http://15.165.160.107/",
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
@@ -17,27 +23,46 @@ const chatApi = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-  const accessToken = document.cookie.split("=")[1];
+  const accessToken = `${localStorage.getItem("token")}`;
+
+  //  {
+  //   authorization: `Bearer ${localStorage.getItem("token")}`,
+  // };
+
   if (accessToken !== undefined) {
-    config.headers.common["token"] = `${accessToken}`;
+    config.headers.common["authorization"] = `Bearer ${accessToken}`;
   }
   return config;
 });
 
+imgApi.interceptors.request.use(function (config) {
+  const accessToken = `${localStorage.getItem("token")}`;
+  if (accessToken !== undefined) {
+    config.headers.common["authorization"] = `Bearer ${accessToken}`;
+    }
+  return config;
+});
+    
 chatApi.interceptors.request.use(function (config) {
   const accessToken = document.cookie.split("=")[1];
   if (accessToken !== undefined) {
-    config.headers.common["token"] = `${accessToken}`;
+    config.headers.common["token"] = `Bearer ${accessToken}`;
   }
   return config;
 });
 
+//apis body
+
 export const apis = {
   // article
-  add: (contents) => api.post("/api/articles", contents),
-
+  // add: (contents) => api.post("/api/articles", contents),
   // user
-  login: (id, pw) => api.post("/user/login", { username: id, password: pw }),
+  login: (userEmail, password) =>
+    api.post("/api/users/login", { userEmail: userEmail, password: password }),
+
+  signup: (frm) => imgApi.post("/api/users/signup", frm),
+
+  load: () => api.get("/api/recommends"),
 
   // chat
   loadChatList: (id) => chatApi.get(`/room/${id}`),
