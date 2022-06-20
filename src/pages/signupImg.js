@@ -167,7 +167,7 @@ const ShowImg = styled.img`
   position: relative;
   width: 500px;
   max-width: 85vw;
-  height: 60vh;
+  height: 500px;
   border-radius: 20px;
   background-size: cover;
   background-position: center;
@@ -180,7 +180,7 @@ const NoShowImg = styled.img`
   position: relative;
   width: 500px;
   max-width: 85vw;
-  height: 60vh;
+  height: 500px;
   border-radius: 20px;
   background-size: cover;
   background-color: gray;

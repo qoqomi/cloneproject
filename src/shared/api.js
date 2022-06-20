@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const imgApi = axios.create({
-  baseURL: " http://localhost:5003/",
+  baseURL: " http://15.165.160.107/",
   headers: {
     "content-type": "multipart/form-data",
   },
 });
 const api = axios.create({
-  baseURL: "http://localhost:5003/",
+  baseURL: "http://15.165.160.107/",
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
@@ -15,19 +15,35 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-  const accessToken = document.cookie.split("=")[1];
+  const accessToken = `${localStorage.getItem("token")}`;
+
+  //  {
+  //   authorization: `Bearer ${localStorage.getItem("token")}`,
+  // };
+
   if (accessToken !== undefined) {
-    config.headers.common["Authorization"] = `Bearer ${accessToken}`;
+    config.headers.common["authorization"] = `Bearer ${accessToken}`;
   }
   return config;
 });
 
+imgApi.interceptors.request.use(function (config) {
+  const accessToken = `${localStorage.getItem("token")}`;
+  if (accessToken !== undefined) {
+    config.headers.common["authorization"] = `Bearer ${accessToken}`;
+  }
+  return config;
+});
+
+//apis body
 export const apis = {
   // article
-  add: (contents) => api.post("/api/articles", contents),
+  // add: (contents) => api.post("/api/articles", contents),
   // user
   login: (userEmail, password) =>
-    api.post("/user/login", { userEmail: userEmail, password: password }),
+    api.post("/api/users/login", { userEmail: userEmail, password: password }),
 
-  signup: (frm) => imgApi.post("/login", frm),
+  signup: (frm) => imgApi.post("/api/users/signup", frm),
+
+  load: () => api.get("/api/recommends"),
 };

@@ -1,34 +1,57 @@
 import styled from "styled-components";
 import Template from "../components/template";
-
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { loadPeople } from "../modules/people";
+import { useParams } from "react-router-dom";
+import { loadPeopleAxios } from "../modules/people";
 function Main() {
+  const person = useSelector((state) => state.people.persons);
+  const dispatch = useDispatch();
+  const [view, setView] = useState(true);
+
+  React.useEffect(() => {
+    dispatch(loadPeopleAxios(person));
+  }, [person]);
+
+  const onClickView = () => {
+    setView((prev) => !prev);
+  };
   return (
     <Template>
       <Div>
-        <OneCard
-          style={{
-            backgroundImage: `url("https://p4.wallpaperbetter.com/wallpaper/817/916/889/falcon-9-rocket-4k-high-definition-wallpaper-preview.jpg")`,
-          }}
-        >
-          <H3>이름</H3>
-          <H4>나이</H4>
-        </OneCard>
-        <TwoCard
-          style={{
-            backgroundImage: `url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc7vUezLJbElOtP19-xjeLpuFwMhw92S6Y6g&usqp=CAU")`,
-          }}
-        >
-          <H3>이름</H3>
-          <H4>나이</H4>
-        </TwoCard>
+        {view ? (
+          <OneCard
+            style={{
+              backgroundImage: `url(${person[0].profileImage})`,
+            }}
+          >
+            <H3>{person[0].userName}</H3>
+            <H4>{person[0].userAge}</H4>
+          </OneCard>
+        ) : (
+          <TwoCard
+            style={{
+              backgroundImage: `url(${person[1].profileImage})`,
+            }}
+          >
+            <H3>{person[1].userName}</H3>
+            <H4>{person[1].userAge}</H4>
+          </TwoCard>
+        )}
       </Div>
+      <button onClick={onClickView}>싫어요</button>
+      <button onClick={onClickView}>좋아요</button>
     </Template>
   );
 }
 const Div = styled.div`
   width: 500px;
   max-width: 85vw;
-  height: 75vh;
+  height: 500px;
+  /* height: 75vh; */
+
   box-shadow: 0px 18px 053px 0px rgba(0, 0, 0, 0.3);
   //카드 부모
   background-size: cover;
@@ -40,6 +63,7 @@ const Div = styled.div`
 const OneCard = styled.div`
   //자식
   position: absolute;
+  position: relative;
   width: 100%;
   height: 100%;
   top: 0;
@@ -50,7 +74,6 @@ const OneCard = styled.div`
   overflow: hidden;
   border-radius: 20px;
   box-shadow: 0px 18px 053px 0px rgba(0, 0, 0, 0.3);
-  z-index: -1;
 `;
 const TwoCard = styled.div`
   position: absolute;
@@ -64,30 +87,21 @@ const TwoCard = styled.div`
   overflow: hidden;
   border-radius: 20px;
   box-shadow: 0px 18px 053px 0px rgba(0, 0, 0, 0.3);
-  z-index: 1;
 `;
 
 const H3 = styled.h3`
+  position: absolute;
   font-size: 24px;
-  margin-top: -20px;
-  z-index: 1;
-  position: fixed;
-  bottom: 0;
-  margin-bottom: 120px;
-  margin-left: 20px;
+  bottom: 20px;
+  left: 20px;
   font-weight: bold;
-
   color: white;
 `;
 const H4 = styled.h4`
+  position: absolute;
   font-size: 20px;
-  margin-top: -20px;
-  z-index: 1;
-  position: fixed;
-  bottom: 0;
-  margin-bottom: 120px;
-  margin-left: 67px;
-
+  bottom: 20px;
+  left: 90px;
   color: white;
 `;
 export default Main;

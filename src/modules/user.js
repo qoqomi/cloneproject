@@ -56,20 +56,16 @@ export const signupAxios = (frm) => {
 };
 
 export const loginAxios = (userEmail, password) => {
+  console.log(userEmail, password);
   return async function (dispatch) {
-    //redux
-    console.log("들어옴");
-    let work = null;
     await apis
       .login(userEmail, password)
       .then((res) => {
         dispatch(login(res));
         console.log(login(res));
-        work = true;
       })
       .catch((err) => {
         console.log(err);
-        work = false;
       });
   };
 };

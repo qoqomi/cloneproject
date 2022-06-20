@@ -4,43 +4,36 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { loginAxios } from "../modules/user";
+import { useSelector } from "react-redux";
+
 function Login() {
+  const person = useSelector((state) => state.people.persons);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [userEmail, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+  const usernameRef = React.useRef(null);
+  const passwordRef = React.useRef(null);
+
   const [error, setError] = useState("");
 
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    if (name === "email") {
-      setUserId(value);
-    } else if (name === "password") {
-      setPassword(value);
-    }
-  };
-
   const loginFB = async () => {
-    if (
-      (userEmail == "" && password == "") ||
-      password == "" ||
-      userEmail == ""
-    ) {
-      alert("모두 입력해주세요");
-      return false;
-    } else {
-      try {
-        await dispatch(
-          loginAxios(userEmail, password).then((work) => {
-            console.log(work);
-          })
-        );
-      } catch (err) {
-        console.log(err);
-      }
-
-      //await
+    try {
+      await dispatch(
+        loginAxios(usernameRef.current.value, passwordRef.current.value)
+      ).then((success) => {
+        console.log(success);
+        if (success === true) {
+          navigate("/");
+          alert("로그인되었습니다!");
+        } else {
+          // document.getElementById("LoginBtn").disabled = false;
+        }
+      });
+    } catch (err) {
+      console.log(err);
     }
+
+    //await
   };
 
   return (
@@ -51,16 +44,14 @@ function Login() {
           name="email"
           type="email"
           placeholder="Email"
-          value={userEmail}
-          onChange={onChange}
+          ref={usernameRef}
         />
         <LOG
           required
           name="password"
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={onChange}
+          ref={passwordRef}
         />
 
         <Button onClick={loginFB}>Login</Button>
