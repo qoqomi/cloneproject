@@ -14,6 +14,14 @@ const api = axios.create({
   },
 });
 
+const chatApi = axios.create({
+  baseURL: "http://localhost:5001/",
+  headers: {
+    "content-type": "application/json;charset=UTF-8",
+    accept: "application/json,",
+  },
+});
+
 api.interceptors.request.use(function (config) {
   const accessToken = `${localStorage.getItem("token")}`;
 
@@ -31,11 +39,20 @@ imgApi.interceptors.request.use(function (config) {
   const accessToken = `${localStorage.getItem("token")}`;
   if (accessToken !== undefined) {
     config.headers.common["authorization"] = `Bearer ${accessToken}`;
+    }
+  return config;
+});
+    
+chatApi.interceptors.request.use(function (config) {
+  const accessToken = document.cookie.split("=")[1];
+  if (accessToken !== undefined) {
+    config.headers.common["token"] = `Bearer ${accessToken}`;
   }
   return config;
 });
 
 //apis body
+
 export const apis = {
   // article
   // add: (contents) => api.post("/api/articles", contents),
@@ -50,4 +67,12 @@ export const apis = {
   signup: (frm) => imgApi.post("/api/users/signup", frm),
 
   load: () => api.get("/api/recommends"),
+
+  // chat
+  loadChatList: (id) => chatApi.get(`/room/${id}`),
+  loadChat: (user, other) =>
+    chatApi.post("/room", {
+      user: user,
+      other: other,
+    }),
 };
