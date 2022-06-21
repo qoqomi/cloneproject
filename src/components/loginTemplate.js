@@ -35,5 +35,6 @@ const Section = styled.section`
   flex-direction: column;
   align-items: center;
   margin: auto;
+  background-color: white;
 `;
 export default LoginTemplate;
