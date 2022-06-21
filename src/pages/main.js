@@ -6,43 +6,53 @@ import { useDispatch } from "react-redux";
 import { loadPeople } from "../modules/people";
 import { useParams } from "react-router-dom";
 import { loadPeopleAxios } from "../modules/people";
+import { keyframes } from "styled-components";
 function Main() {
-  const person = useSelector((state) => state.people.persons);
+  const person = useSelector((state) => state.people.users.users);
+  const [update, setUpdate] = useState([]);
   const dispatch = useDispatch();
   const [view, setView] = useState(true);
 
   React.useEffect(() => {
-    dispatch(loadPeopleAxios(person));
-  }, [person]);
+    dispatch(loadPeopleAxios());
+    setUpdate(person);
+  }, []);
 
+  console.log(person);
   const onClickView = () => {
     setView((prev) => !prev);
   };
   return (
     <Template>
       <Div>
-        {view ? (
-          <OneCard
-            style={{
-              backgroundImage: `url(${person[0].profileImage})`,
-            }}
-          >
-            <H3>{person[0].userName}</H3>
-            <H4>{person[0].userAge}</H4>
-          </OneCard>
-        ) : (
-          <TwoCard
-            style={{
-              backgroundImage: `url(${person[1].profileImage})`,
-            }}
-          >
-            <H3>{person[1].userName}</H3>
-            <H4>{person[1].userAge}</H4>
-          </TwoCard>
+        {person && (
+          <>
+            {view ? (
+              <OneCard
+                style={{
+                  backgroundImage: `url(${person[0].imageUrl})`,
+                }}
+              >
+                <H3>{person && person[0].userName}</H3>
+                <H4>{person && person[0].userAge}</H4>
+              </OneCard>
+            ) : (
+              <TwoCard
+                style={{
+                  backgroundImage: `url(${person[1].imageUrl})`,
+                }}
+              >
+                <H3>{person && person[1].userName}</H3>
+                <H4>{person && person[1].userAge}</H4>
+              </TwoCard>
+            )}
+          </>
         )}
       </Div>
-      <button onClick={onClickView}>싫어요</button>
-      <button onClick={onClickView}>좋아요</button>
+      <ButtonDiv>
+        <ButtomOne onClick={onClickView}>싫어요</ButtomOne>
+        <ButtomTwo onClick={onClickView}>좋아요</ButtomTwo>
+      </ButtonDiv>
     </Template>
   );
 }
@@ -103,5 +113,32 @@ const H4 = styled.h4`
   bottom: 20px;
   left: 90px;
   color: white;
+  margin-left: 10px;
 `;
+const ButtonDiv = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 50px;
+  justify-content: space-around;
+`;
+
+const ButtomOne = styled.button`
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #fe5065;
+  background-color: transparent;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+`;
+
+const ButtomTwo = styled.button`
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #25eccb;
+  background-color: transparent;
+`;
+
 export default Main;

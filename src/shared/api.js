@@ -58,7 +58,11 @@ export const apis = {
   // add: (contents) => api.post("/api/articles", contents),
   // user
   login: (userEmail, password) =>
-    api.post("/api/users/login", { userEmail: userEmail, password: password }),
+    api
+      .post("/api/users/login", { userEmail: userEmail, password: password })
+      .then((user) => {
+        localStorage.setItem("token", user.data.token);
+      }),
 
   signup: (frm) => imgApi.post("/api/users/signup", frm),
 

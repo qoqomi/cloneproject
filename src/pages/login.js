@@ -21,9 +21,9 @@ function Login() {
       await dispatch(
         loginAxios(usernameRef.current.value, passwordRef.current.value)
       ).then((success) => {
+        navigate("/main");
         console.log(success);
         if (success === true) {
-          navigate("/");
           alert("로그인되었습니다!");
         } else {
           // document.getElementById("LoginBtn").disabled = false;
