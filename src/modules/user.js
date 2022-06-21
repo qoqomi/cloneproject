@@ -61,6 +61,7 @@ export const loginAxios = (userEmail, password) => {
     await apis
       .login(userEmail, password)
       .then((res) => {
+        console.log("들어옴:redux");
         dispatch(login(res));
         console.log(login(res));
       })
@@ -70,10 +71,28 @@ export const loginAxios = (userEmail, password) => {
   };
 };
 
+// export const loginAxios = (userEmail, password) => {
+//   return async function (dispatch) {
+//     let success = null;
+//     await apis
+//       .login(userEmail, password)
+//       .then((res) => {
+//         dispatch(login(res));
+//         success = true;
+//       })
+//       .catch((err) => {
+//         success = false;
+//         alert("아이디와 패스워드를 확인해주세요!");
+//       });
+//     return success;
+//   };
+// };
+
 // reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "user/LOGIN": {
+      console.log("들어옴");
       const newUserInfo = {
         username: action.id,
         is_login: true,
