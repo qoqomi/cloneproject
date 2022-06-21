@@ -8,6 +8,7 @@ const BAD = "people/BAD";
 //action creator
 
 export function loadPeople(people_list) {
+  console.log(people_list);
   return { type: LOAD, people_list };
 }
 export function goodPeople(people_good) {
@@ -58,6 +59,7 @@ export const goodPeopleAxios = (userId, select) => {
 };
 
 export const badPeopleAxios = (selectId, selet) => {
+  console.log("들어옴");
   return function async(dispatch) {
     apis
       .selectBad(selectId, selet)
@@ -91,7 +93,8 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "people/LOAD": {
-      return { users: action.people_list };
+      console.log(action.people_list);
+      return { users: action.people_list.users };
     }
     case "people/GOOD": {
       console.log("들어옴");
@@ -99,15 +102,15 @@ export default function reducer(state = initialState, action = {}) {
       return { users: new_people };
     }
     case "people/BAD": {
-      let new_people = [...state.users.users];
+      let new_people = [...state.users];
 
       new_people[0] = new_people[1];
 
-      // new_people.pop();
       new_people.pop();
       new_people.push(action.people_bad);
 
-      const set = [new_people];
+      const set = [new_people][0];
+      console.log(set);
       // console.log(set);
 
       return { users: set };

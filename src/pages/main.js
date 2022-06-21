@@ -18,8 +18,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faXmark } from "@fortawesome/free-solid-svg-icons";
 function Main() {
   const person = useSelector((state) => state.people.users);
-  // console.log(person.users);
+  console.log(person);
   const [update, setUpdate] = useState([]);
+
   const dispatch = useDispatch();
   const [view, setView] = useState(true);
 
@@ -32,24 +33,24 @@ function Main() {
     setUpdate(person);
   }, [person]);
 
-  const onClickLike = async (userId, likedOrNot) => {
-    await dispatch(goodPeopleAxios(userId, likedOrNot))
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    dispatch(goodPeople(userId, likedOrNot));
-  };
-
-  const onClickBad = (userId, likedOrNot) => {
+  // const onClickLike = async (userId, likedOrNot) => {
+  //   await dispatch(goodPeopleAxios(userId, likedOrNot))
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   dispatch(goodPeople(userId, likedOrNot));
+  // };
+  const onClickBad = () => {
     setView((prev) => !prev);
-    console.log(userId, likedOrNot);
 
-    dispatch(badPeopleAxios(userId, likedOrNot));
+    const person_bad = (person.users[0]._id, false);
+    dispatch(badPeopleAxios(person_bad));
   };
-  const img = update.length > 0 ? update?.users[0].imageUrl : "";
+
+  // const img = update.length > 0 ? update?.users[0].imageUrl : "";
   return (
     person && (
       <Template>
@@ -61,7 +62,7 @@ function Main() {
                 id="oneCard"
                 style={{
                   zIndex: view ? 0 : 1,
-                  backgroundImage: `url(${img})`,
+                  // backgroundImage: `url(${update.users[0].imageUrl})`,
                 }}
               ></OneCard>
             ) : (
@@ -77,12 +78,7 @@ function Main() {
           )
         </Div>
         <ButtonDiv>
-          <ButtomOne
-            id="bad"
-            onClick={() => {
-              onClickBad(person.users[0]._id, false);
-            }}
-          >
+          <ButtomOne id="bad" onClick={onClickBad}>
             <FontAwesomeIcon
               icon={faXmark}
               size="2x"
@@ -92,7 +88,6 @@ function Main() {
           <ButtomTwo
             id="like"
             onClick={async () => {
-              onClickLike(person.users[0]._id, true);
               setView((prev) => !prev);
             }}
           >
