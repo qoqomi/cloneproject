@@ -62,7 +62,7 @@ export const loginAxios = (userEmail, password) => {
       .login(userEmail, password)
       .then((res) => {
         console.log("들어옴:redux");
-        dispatch(login(res));
+        dispatch(login(userEmail));
         console.log(login(res));
       })
       .catch((err) => {
@@ -94,7 +94,7 @@ export default function reducer(state = initialState, action = {}) {
     case "user/LOGIN": {
       console.log("들어옴");
       const newUserInfo = {
-        username: action.id,
+        userEmail: action.id,
         is_login: true,
       };
       return {
@@ -105,7 +105,7 @@ export default function reducer(state = initialState, action = {}) {
     case "user/LOGOUT": {
       deleteCookie("JWTToken");
       const newUserInfo = {
-        username: null,
+        userEmail: null,
         nickname: null,
         is_login: false,
       };

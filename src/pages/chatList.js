@@ -9,7 +9,8 @@ function ChatList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const id = "62afc9b1d6296a59bd6f8989";
+  const id = useSelector((state) => state.user.userinfo.userEmail);
+  // const id = "62afc9b1d6296a59bd6f8989";
 
   React.useEffect(() => {
     dispatch(ChatListAxios(id));

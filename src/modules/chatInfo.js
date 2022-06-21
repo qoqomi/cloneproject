@@ -6,7 +6,10 @@ const initialState = {
   list: [],
   chat: [],
   roomId: null,
-  // myUniqueId: null,
+  otherInfo: {
+    name: null,
+    imageUrl: null,
+  },
 };
 
 // Actions
@@ -14,6 +17,7 @@ const LOAD = "chatInfo/LOAD";
 const ROOMID = "chatInfo/ROOMID";
 const INITIALCHAT = "chatInfo/INITIALCHAT";
 const CHATSOCKET = "chatInfo/CHATSOCKET";
+const OTHERINFO = "chatInfo/OTHERINFO";
 
 // Action Creators
 export function loadChats(chatList) {
@@ -30,6 +34,10 @@ export function initialChat(chat) {
 
 export function chatSocket(data) {
   return { type: CHATSOCKET, data };
+}
+
+export function otherInfo(data) {
+  return { type: OTHERINFO, data };
 }
 
 //middlewares
@@ -52,8 +60,10 @@ export const getRoomIdAxios = (id, other) => {
     await apis
       .getRoomId(id, other)
       .then((res) => {
-        dispatch(roomId(res.data));
-        myRoomId = res.data;
+        console.log(res.data);
+        dispatch(roomId(res.data.newRoom2));
+        dispatch(otherInfo(res.data.otherInfo2));
+        myRoomId = res.data.newRoom2;
       })
       .catch((err) => {
         console.log(err);
@@ -62,12 +72,12 @@ export const getRoomIdAxios = (id, other) => {
   };
 };
 
-export const initialChatAxios = (id, other) => {
+export const initialChatAxios = (roomId) => {
   return async function (dispatch) {
     await apis
-      .loadChat(id, other)
-      .then((chat) => {
-        dispatch(initialChat(chat));
+      .getInitialChat(roomId)
+      .then((res) => {
+        dispatch(initialChat(res.data.chats));
       })
       .catch((err) => {
         console.log(err);
@@ -83,6 +93,7 @@ export default function reducer(state = initialState, action = {}) {
         list: action.chatList,
         chat: state.chat,
         roomId: state.roomId,
+        otherInfo: state.otherInfo,
       };
     }
     case "chatInfo/ROOMID": {
@@ -90,6 +101,7 @@ export default function reducer(state = initialState, action = {}) {
         list: state.list,
         chat: state.chat,
         roomId: action.id,
+        otherInfo: state.otherInfo,
       };
     }
     case "chatInfo/INITIALCHAT": {
@@ -97,6 +109,7 @@ export default function reducer(state = initialState, action = {}) {
         list: state.list,
         chat: action.chat,
         roomId: state.roomId,
+        otherInfo: state.otherInfo,
       };
     }
     case "chatInfo/CHATSOCKET": {
@@ -105,6 +118,19 @@ export default function reducer(state = initialState, action = {}) {
         list: state.list,
         chat: [...state.chat, action.data],
         roomId: state.roomId,
+        otherInfo: state.otherInfo,
+      };
+    }
+    case "chatInfo/OTHERINFO": {
+      const newOtherInfo = {
+        name: action.data.userName,
+        imageUrl: action.data.imageUrl,
+      };
+      return {
+        list: state.list,
+        chat: state.chat,
+        roomId: state.roomId,
+        otherInfo: newOtherInfo,
       };
     }
 

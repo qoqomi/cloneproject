@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import LoginTemplate from "../components/loginTemplate";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { getMyInfoAxios, cleanMyInfo } from "../modules/myInfo";
+import {
+  getMyInfoAxios,
+  cleanMyInfo,
+  modifyMyInfoAxios,
+} from "../modules/myInfo";
 import { useNavigate } from "react-router-dom";
+import { apis } from "../shared/api";
 
 function MyPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const myInfo = useSelector((state) => state.myInfo.myInfo);
+
+  const [myPicUrl, setMyPicUrl] = useState("");
+  const [myCategory, setMyCategory] = useState([]);
 
   React.useEffect(() => {
     dispatch(getMyInfoAxios());
@@ -18,6 +26,11 @@ function MyPage() {
       dispatch(cleanMyInfo());
     };
   }, []);
+
+  React.useEffect(() => {
+    setMyPicUrl(myInfo.imageUrl);
+    setMyCategory(myInfo.category);
+  }, [myInfo]);
 
   const checkData = [
     { id: 1, name: "PC방" },
@@ -50,9 +63,18 @@ function MyPage() {
     const myElement = document.getElementById(`${target.value}label`);
     if (target.checked) {
       myElement.style.border = "2px solid #ff3774";
+      setMyCategory([...myCategory, target.value]);
     } else {
       myElement.style.border = "1px solid #ddd";
+      const newCategory = myCategory.filter((word) => word !== target.value);
+      setMyCategory(newCategory);
     }
+  };
+
+  const changeProfile = () => {
+    let frm = new FormData();
+    frm.append("userIntro", "wfe");
+    modifyMyInfoAxios(frm);
   };
 
   return (
@@ -66,7 +88,7 @@ function MyPage() {
       </GoBackBtn>
       <Title>내 프로필</Title>
       <ProfileCover>
-        <ProfileImg src={myInfo.imageUrl} />
+        <ProfileImg src={myPicUrl} />
         <BoldTitle>{myInfo.userName}</BoldTitle>
         <UserEmail>{myInfo.userEmail}</UserEmail>
       </ProfileCover>
@@ -85,7 +107,7 @@ function MyPage() {
       <CheckForm>
         {checkData.map((v, i) => {
           return (
-            <CheckBoxLabel key={i} for={v.name} id={v.name + "label"}>
+            <CheckBoxLabel key={i} htmlFor={v.name} id={v.name + "label"}>
               <CheckBoxInput
                 type="checkbox"
                 id={v.name}
@@ -93,13 +115,14 @@ function MyPage() {
                 onChange={(e) => {
                   checkHandler(e);
                 }}
+                checked={myCategory.includes(v.name)}
               />
               {v.name}
             </CheckBoxLabel>
           );
         })}
       </CheckForm>
-      <ChangeBtn>프로필 변경</ChangeBtn>
+      <ChangeBtn onClick={changeProfile}>프로필 변경</ChangeBtn>
     </LoginTemplate>
   );
 }

@@ -10,12 +10,14 @@ import axios from "axios";
 function Chat() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [inputCurrent, setInputCurrent] = React.useState("");
+  const inputCurrent = React.useRef(null);
   const location = useLocation();
   const params = useParams();
   console.log(params.roomId);
 
-  const id = "62afc9b1d6296a59bd6f8989";
+  const otherInfo = useSelector((state) => state.chatInfo.otherInfo);
+
+  const id = useSelector((state) => state.user.userinfo.userEmail);
   const socket = io.connect("http://sparta-swan.shop/chat", {
     path: "/socket.io",
     roomId: params.roomId,
@@ -23,7 +25,7 @@ function Chat() {
 
   React.useEffect(() => {
     socket.emit("newRoomId", params.roomId);
-    // dispatch(initialChatAxios());
+    dispatch(initialChatAxios(params.roomId));
     // socket.on("join", params.roomId);
   }, []);
 
@@ -31,11 +33,11 @@ function Chat() {
     socket.on("chat", (data) => {
       dispatch(chatSocket(data));
     });
-  });
+  }, [socket]);
 
   React.useEffect(() => {
     return () => {
-      socket.close();
+      socket.on("disconnect");
     };
   }, []);
 
@@ -86,21 +88,18 @@ function Chat() {
   //   },
   // ];
 
-  const changeInputState = (e) => {
-    setInputCurrent(e.target.value);
-  };
-
   const sendMessage = () => {
-    if (inputCurrent === "") {
+    if (inputCurrent === "" || null) {
       return false;
     }
     const chatData = {
-      chat: inputCurrent,
+      chat: inputCurrent.current.value,
+      userEmail: id,
     };
     axios
       .post(`http://sparta-swan.shop/room/${params.roomId}/chat`, chatData)
       .then(() => {
-        setInputCurrent("");
+        document.getElementById("messageInput").value = null;
       });
   };
 
@@ -109,48 +108,49 @@ function Chat() {
       <ChatListBtn
         onClick={() => {
           navigate("/chatlist");
+          socket.on("disconnect");
         }}
       >
         ←
       </ChatListBtn>
       <ChatHeader>
         <ProfileCover>
-          <ProfileImg src="https://newsimg.hankookilbo.com/cms/articlerelease/2021/05/17/b41ab909-e0e2-40e8-a36a-4bae809a9024.jpg" />
+          <ProfileImg src={otherInfo.imageUrl} />
           <NameCover>
-            <Name>아이유</Name>
+            <Name>{otherInfo.name}</Name>
           </NameCover>
         </ProfileCover>
         <HeaderLine />
       </ChatHeader>
       <ChatArea>
         {chatlist.map((v, i) => {
-          // return v.me ? (
-          //   <ChatCoverMe key={"chat" + i}>
-          //     <ChattingCoverMe>
-          //       <Chatting>{v.message}</Chatting>
-          //     </ChattingCoverMe>
-          //   </ChatCoverMe>
-          // ) : (
-          //   <ChatCoverYou key={"chat" + i}>
-          //     <ChatProfileCover>
-          //       <ChatProfileImg src="https://newsimg.hankookilbo.com/cms/articlerelease/2021/05/17/b41ab909-e0e2-40e8-a36a-4bae809a9024.jpg" />
-          //     </ChatProfileCover>
-          //     <ChattingCoverYou>
-          //       <Chatting>{v.message}</Chatting>
-          //     </ChattingCoverYou>
-          //   </ChatCoverYou>
-          // );
-          return (
+          return v.userEmail === id ? (
             <ChatCoverMe key={"chat" + i}>
               <ChattingCoverMe>
                 <Chatting>{v.chat}</Chatting>
               </ChattingCoverMe>
             </ChatCoverMe>
+          ) : (
+            <ChatCoverYou key={"chat" + i}>
+              <ChatProfileCover>
+                <ChatProfileImg src={otherInfo.imageUrl} />
+              </ChatProfileCover>
+              <ChattingCoverYou>
+                <Chatting>{v.chat}</Chatting>
+              </ChattingCoverYou>
+            </ChatCoverYou>
           );
+          // return (
+          //   <ChatCoverMe key={"chat" + i}>
+          //     <ChattingCoverMe>
+          //       <Chatting>{v.chat}</Chatting>
+          //     </ChattingCoverMe>
+          //   </ChatCoverMe>
+          // );
         })}
       </ChatArea>
       <MessageCover>
-        <MessageInput onChange={changeInputState} value={inputCurrent} />
+        <MessageInput id="messageInput" ref={inputCurrent} />
         <MessageBtn
           inputValue={inputCurrent === "" ? false : true}
           onClick={sendMessage}
@@ -306,7 +306,7 @@ const MessageBtn = styled.button`
   width: 50px;
   height: 30px;
   width: fit-content;
-  color: ${(props) => (props.inputValue ? "royalblue" : "#aaa")};
+  color: royalblue;
   font-weight: ${(props) => (props.inputValue ? "bold" : "normal")};
   position: absolute;
   right: 15px;

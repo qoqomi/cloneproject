@@ -69,6 +69,7 @@ export const apis = {
   load: () => api.get("/api/recommends"),
 
   myInfo: () => api.get("/api/users/personal"),
+  modifyMyInfo: (frm) => api.put("/api/user/modify", frm),
 
   // chat
   loadChatList: (id) => chatApi.get(`/${id}`),
@@ -77,4 +78,5 @@ export const apis = {
       user: user,
       other: other,
     }),
+  getInitialChat: (roomId) => chatApi.get(`/chatlist/${roomId}`),
 };
