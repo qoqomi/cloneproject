@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import { initialChatAxios, ChatListAxios } from "../modules/chatInfo";
+import { getRoomIdAxios, ChatListAxios } from "../modules/chatInfo";
 
 function ChatList() {
   const navigate = useNavigate();
@@ -16,9 +16,12 @@ function ChatList() {
   }, []);
 
   const chatlist = useSelector((state) => state.chatInfo.list);
+  const roomId = useSelector((state) => state.chatInfo);
 
-  const gotoChatroom = (other) => {
-    dispatch(initialChatAxios(id, other));
+  const gotoChatroom = async (other) => {
+    await dispatch(getRoomIdAxios(id, other)).then((res) => {
+      navigate(`/room/${res}`);
+    });
   };
 
   // const chatlist = [

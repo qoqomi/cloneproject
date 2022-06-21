@@ -68,7 +68,7 @@ export const apis = {
 
   // chat
   loadChatList: (id) => chatApi.get(`/${id}`),
-  loadChat: (user, other) =>
+  getRoomId: (user, other) =>
     chatApi.post("/room", {
       user: user,
       other: other,

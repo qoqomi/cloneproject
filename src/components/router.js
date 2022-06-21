@@ -19,7 +19,7 @@ export default function Router() {
         <Route path="/main" element={<Main />} />
         <Route path="/main/:id" element={<Main />} />
         <Route path="/chatlist" element={<ChatList />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/room/:roomId" element={<Chat />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<Login />} />
       </Routes>

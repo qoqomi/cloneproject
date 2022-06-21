@@ -2,7 +2,7 @@ import React from "react";
 import Template from "../components/template";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { initialChatAxios, chatSocket } from "../modules/chatInfo";
 import io from "socket.io-client";
 
@@ -11,20 +11,24 @@ function Chat() {
   const dispatch = useDispatch();
   const [inputCurrent, setInputCurrent] = React.useState("");
   const location = useLocation();
-  const other = location.state.userId;
+  const params = useParams();
+  console.log(params.roomId);
 
   const id = "62afc9b1d6296a59bd6f8989";
+  const socket = io.connect("http://sparta-swan.shop/chat", {
+    path: "/socket.io",
+  });
 
   React.useEffect(() => {
-    dispatch(initialChatAxios());
+    // dispatch(initialChatAxios());
+    socket.on("join", params.roomId);
   }, []);
 
-  const socket = io.connect("http://sparta-swan.shop/chat", {
-    path: "/socket/io",
-  });
-  socket.on("join", function (data) {
-    dispatch(chatSocket(data));
-  });
+  React.useEffect(() => {
+    socket.on("chat", (data) => {
+      console.log(data);
+    });
+  }, [socket]);
 
   React.useEffect(() => {
     return () => {
