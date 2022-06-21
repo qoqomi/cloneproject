@@ -53,24 +53,25 @@ function Login() {
           placeholder="Password"
           ref={passwordRef}
         />
+        <ButtomDiv>
+          <Button onClick={loginFB}>Login</Button>
 
-        <Button onClick={loginFB}>Login</Button>
-
-        <Next
-          onClick={() => {
-            navigate("/signup");
-          }}
-        >
-          Sign Up
-        </Next>
+          <Next
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            Sign Up
+          </Next>
+        </ButtomDiv>
       </Form>
     </LoginTemplate>
   );
 }
 const Form = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 `;
 
 const LOG = styled.input`
@@ -80,7 +81,7 @@ const LOG = styled.input`
   margin-bottom: 25px;
   font-size: 18px;
   outline: 0;
-  width: 20em;
+  width: 75%;
 
   input.placeholder {
     text-align: center;
@@ -111,6 +112,13 @@ const LOG = styled.input`
     }
   }
 `;
+
+const ButtomDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+`;
+
 const Button = styled.button`
   font-size: 18px;
   border-radius: 50px;
@@ -118,7 +126,7 @@ const Button = styled.button`
 
   border: none;
   padding: 18px;
-  width: 20em;
+
   letter-spacing: 2px;
   background-color: ${(props) => props.color};
   color: white;
@@ -136,7 +144,7 @@ const Next = styled.button`
 
   border: 1px solid black;
   padding: 18px;
-  width: 20em;
+
   letter-spacing: 2px;
   background-color: transparent;
   color: black;

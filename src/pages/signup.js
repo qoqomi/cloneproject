@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { userInfo } from "../modules/user.js";
-
 function SignUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -104,18 +103,19 @@ function SignUp() {
           value={userAge}
           onChange={onChange}
         />
-
-        <Button color="#fccb4f" id="SignUpBtn" onClick={signupOnClick}>
-          Next
-        </Button>
-        <Next
-          onClick={() => {
-            navigate("/login");
-          }}
-          color="#212529"
-        >
-          Back
-        </Next>
+        <ButtomDiv>
+          <Button color="#fccb4f" id="SignUpBtn" onClick={signupOnClick}>
+            Next
+          </Button>
+          <Next
+            onClick={() => {
+              navigate("/login");
+            }}
+            color="#212529"
+          >
+            Back
+          </Next>
+        </ButtomDiv>
       </Form>
     </LoginTemplate>
   );
@@ -123,20 +123,18 @@ function SignUp() {
 const Form = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 50px;
+  width: 100%;
 `;
 
 const LOG = styled.input`
   border: none;
   border-radius: 30px;
   padding: 15px 15px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   font-size: 18px;
   outline: 0;
-  width: 20em;
-  max-width: 85vw;
+  width: 75%;
 
   input.placeholder {
     text-align: center;
@@ -167,6 +165,12 @@ const LOG = styled.input`
     }
   }
 `;
+
+const ButtomDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+`;
 const Button = styled.button`
   font-size: 18px;
   border-radius: 50px;
@@ -174,7 +178,6 @@ const Button = styled.button`
 
   border: none;
   padding: 18px;
-  width: 20em;
   letter-spacing: 2px;
   background-color: ${(props) => props.color};
   color: white;
@@ -192,7 +195,7 @@ const Next = styled.button`
 
   border: 1px solid black;
   padding: 18px;
-  width: 20em;
+
   letter-spacing: 2px;
   background-color: transparent;
   color: black;

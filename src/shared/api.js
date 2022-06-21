@@ -39,10 +39,10 @@ imgApi.interceptors.request.use(function (config) {
   const accessToken = `${localStorage.getItem("token")}`;
   if (accessToken !== undefined) {
     config.headers.common["authorization"] = `Bearer ${accessToken}`;
-    }
+  }
   return config;
 });
-    
+
 chatApi.interceptors.request.use(function (config) {
   const accessToken = document.cookie.split("=")[1];
   if (accessToken !== undefined) {
@@ -75,4 +75,10 @@ export const apis = {
       user: user,
       other: other,
     }),
+
+  selectGood: (userId, select) =>
+    api.post("/api/recommends/select", { selectId: userId, select: select }),
+
+  selectBad: (userId, select) =>
+    api.post("/api/recommends/select", { selectId: userId, select: select }),
 };
