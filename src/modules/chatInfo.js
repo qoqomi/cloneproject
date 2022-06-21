@@ -6,6 +6,7 @@ const initialState = {
   list: [],
   chat: [],
   roomId: null,
+  // myUniqueId: null,
 };
 
 // Actions
@@ -99,9 +100,10 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
     case "chatInfo/CHATSOCKET": {
+      console.log(action.data);
       return {
         list: state.list,
-        chat: { ...state.chat, ...action.chat },
+        chat: [...state.chat, action.data],
         roomId: state.roomId,
       };
     }

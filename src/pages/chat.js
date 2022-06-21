@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { initialChatAxios, chatSocket } from "../modules/chatInfo";
 import io from "socket.io-client";
+import axios from "axios";
 
 function Chat() {
   const navigate = useNavigate();
@@ -17,18 +18,20 @@ function Chat() {
   const id = "62afc9b1d6296a59bd6f8989";
   const socket = io.connect("http://sparta-swan.shop/chat", {
     path: "/socket.io",
+    roomId: params.roomId,
   });
 
   React.useEffect(() => {
+    socket.emit("newRoomId", params.roomId);
     // dispatch(initialChatAxios());
-    socket.on("join", params.roomId);
+    // socket.on("join", params.roomId);
   }, []);
 
   React.useEffect(() => {
     socket.on("chat", (data) => {
-      console.log(data);
+      dispatch(chatSocket(data));
     });
-  }, [socket]);
+  });
 
   React.useEffect(() => {
     return () => {
@@ -88,7 +91,17 @@ function Chat() {
   };
 
   const sendMessage = () => {
-    alert("메시지를 보냈습니다! - " + inputCurrent);
+    if (inputCurrent === "") {
+      return false;
+    }
+    const chatData = {
+      chat: inputCurrent,
+    };
+    axios
+      .post(`http://sparta-swan.shop/room/${params.roomId}/chat`, chatData)
+      .then(() => {
+        setInputCurrent("");
+      });
   };
 
   return (
@@ -111,26 +124,33 @@ function Chat() {
       </ChatHeader>
       <ChatArea>
         {chatlist.map((v, i) => {
-          return v.me ? (
+          // return v.me ? (
+          //   <ChatCoverMe key={"chat" + i}>
+          //     <ChattingCoverMe>
+          //       <Chatting>{v.message}</Chatting>
+          //     </ChattingCoverMe>
+          //   </ChatCoverMe>
+          // ) : (
+          //   <ChatCoverYou key={"chat" + i}>
+          //     <ChatProfileCover>
+          //       <ChatProfileImg src="https://newsimg.hankookilbo.com/cms/articlerelease/2021/05/17/b41ab909-e0e2-40e8-a36a-4bae809a9024.jpg" />
+          //     </ChatProfileCover>
+          //     <ChattingCoverYou>
+          //       <Chatting>{v.message}</Chatting>
+          //     </ChattingCoverYou>
+          //   </ChatCoverYou>
+          // );
+          return (
             <ChatCoverMe key={"chat" + i}>
               <ChattingCoverMe>
-                <Chatting>{v.message}</Chatting>
+                <Chatting>{v.chat}</Chatting>
               </ChattingCoverMe>
             </ChatCoverMe>
-          ) : (
-            <ChatCoverYou key={"chat" + i}>
-              <ChatProfileCover>
-                <ChatProfileImg src="https://newsimg.hankookilbo.com/cms/articlerelease/2021/05/17/b41ab909-e0e2-40e8-a36a-4bae809a9024.jpg" />
-              </ChatProfileCover>
-              <ChattingCoverYou>
-                <Chatting>{v.message}</Chatting>
-              </ChattingCoverYou>
-            </ChatCoverYou>
           );
         })}
       </ChatArea>
       <MessageCover>
-        <MessageInput onChange={changeInputState} />
+        <MessageInput onChange={changeInputState} value={inputCurrent} />
         <MessageBtn
           inputValue={inputCurrent === "" ? false : true}
           onClick={sendMessage}
