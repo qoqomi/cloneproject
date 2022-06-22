@@ -76,12 +76,8 @@ function SignupImg() {
         }
       });
     } catch (err) {
-      if (
-        err === "TypeError: Cannot read properties of null (reading 'response')"
-      ) {
-        alert("이미 가입된 정보입니다. ");
-      }
-      채ㅜ내ㅣㄷ.ㅣㅐㅎ(
+      alert("해당 이메일은 이미 가입된 이메일입니다!");
+      navigate("/signup");
     }
   };
 
