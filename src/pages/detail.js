@@ -43,12 +43,14 @@ function Detail(props) {
 }
 
 const CloseButton = styled.button`
-  float: right;
-  margin-right: 15px;
+  margin: 10px auto 20px auto;
   background-color: #fd4f68;
   color: white;
   border: none;
-  border-radius: 10px;
+  font-size: 25px;
+  width: 100px;
+  height: 40px;
+  border-radius: 20px;
 `;
 
 const Div = styled.div`
@@ -185,6 +187,7 @@ const UserWorkPlaceP = styled.p`
 
 const CheckForm = styled.form`
   text-align: center;
+  margin-bottom: 40px;
 `;
 
 const CheckBoxInput = styled.input`

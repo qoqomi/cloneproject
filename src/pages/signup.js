@@ -78,6 +78,7 @@ function SignUp() {
         userAge: userAge,
       })
     );
+    navigate("/signupImg");
   };
 
   return (
@@ -110,31 +111,36 @@ function SignUp() {
             </ValiDiv>
           )}
         </Div>
-
-        <LOG
-          required
-          name="passwordCheck"
-          type="password"
-          placeholder="비밀번호 확인"
-          value={passwordCheck}
-          onChange={onChange}
-        />
-        <LOG
-          required
-          name="name"
-          type="text"
-          placeholder="이름"
-          value={userName}
-          onChange={onChange}
-        />
-        <LOG
-          required
-          name="age"
-          type="text"
-          placeholder="나이"
-          value={userAge}
-          onChange={onChange}
-        />
+        <Div>
+          <LOG
+            required
+            name="passwordCheck"
+            type="password"
+            placeholder="비밀번호 확인"
+            value={passwordCheck}
+            onChange={onChange}
+          />
+        </Div>
+        <Div>
+          <LOG
+            required
+            name="name"
+            type="text"
+            placeholder="이름"
+            value={userName}
+            onChange={onChange}
+          />
+        </Div>
+        <Div>
+          <LOG
+            required
+            name="age"
+            type="text"
+            placeholder="나이"
+            value={userAge}
+            onChange={onChange}
+          />
+        </Div>
         <ButtomDiv>
           <Button color="#fccb4f" id="SignUpBtn" onClick={signupOnClick}>
             Next
