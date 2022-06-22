@@ -49,6 +49,7 @@ export const signupAxios = (frm) => {
       })
       .catch((err) => {
         console.log(err);
+        res = false;
       });
     return res;
   };
@@ -56,15 +57,19 @@ export const signupAxios = (frm) => {
 
 export const loginAxios = (userEmail, password) => {
   return async function (dispatch) {
+    let res = null;
     await apis
       .login(userEmail, password)
       .then((res) => {
         dispatch(login(userEmail));
         console.log(login(res));
+        res = true;
       })
       .catch((err) => {
         console.log(err);
+        res = false;
       });
+    return res;
   };
 };
 

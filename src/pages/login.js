@@ -28,13 +28,13 @@ function Login() {
       try {
         await dispatch(
           loginAxios(usernameRef.current.value, passwordRef.current.value)
-        ).then((success) => {
-          navigate("/main");
-          console.log(success);
-          if (success === true) {
+        ).then((res) => {
+          if (res === true) {
             alert("로그인되었습니다!");
+            navigate("/main");
           } else {
             // document.getElementById("LoginBtn").disabled = false;
+            alert("아이디와 비밀번호를 확인해주세요!");
           }
         });
       } catch (err) {
