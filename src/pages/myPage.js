@@ -42,10 +42,8 @@ function MyPage() {
   const checkHandler = ({ target }) => {
     const myElement = document.getElementById(`${target.value}label`);
     if (target.checked) {
-      myElement.style.border = "2px solid #ff3774";
       setMyCategory([...myCategory, target.value]);
     } else {
-      myElement.style.border = "1px solid #ddd";
       const newCategory = myCategory.filter((word) => word !== target.value);
       setMyCategory(newCategory);
     }
@@ -70,7 +68,9 @@ function MyPage() {
     frm.append("imageUrl", imageState);
     frm.append("workPlace", workPlace.current.value);
     console.log(frm);
-    dispatch(modifyMyInfoAxios(frm));
+    dispatch(modifyMyInfoAxios(frm)).then(() => {
+      alert("변경되었습니다!");
+    });
   };
 
   return (
@@ -91,7 +91,7 @@ function MyPage() {
           accept="image/*"
           onChange={preview}
         />
-        <label htmlFor="InputPhoto">사진 변경</label>
+        <ChangePhotoLabel htmlFor="InputPhoto">사진 변경</ChangePhotoLabel>
         <BoldTitle>{myInfo.userName}</BoldTitle>
         <UserEmail>{myInfo.userEmail}</UserEmail>
       </ProfileCover>
@@ -110,7 +110,12 @@ function MyPage() {
       <CheckForm>
         {categories.map((v, i) => {
           return (
-            <CheckBoxLabel key={i} htmlFor={v.name} id={v.name + "label"}>
+            <CheckBoxLabel
+              key={i}
+              htmlFor={v.name}
+              id={v.name + "label"}
+              checkThis={myCategory.includes(v.name)}
+            >
               <CheckBoxInput
                 type="checkbox"
                 id={v.name}
@@ -174,6 +179,18 @@ const ProfileImg = styled.img`
 `;
 
 const ChangePhotoInput = styled.input`
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+`;
+
+const ChangePhotoLabel = styled.label`
   font-size: 18px;
   border-radius: 50px;
   margin-bottom: 5px;
@@ -184,6 +201,7 @@ const ChangePhotoInput = styled.input`
   letter-spacing: 2px;
   background-color: ${(props) => props.color};
   color: white;
+  text-align: center;
   ::file-selector-button {
     display: none;
   }
@@ -332,10 +350,10 @@ const CheckBoxLabel = styled.label`
   height: 30px;
   border-radius: 10px;
   text-align: center;
-  border: 1px solid #ddd;
   line-height: 25px;
   cursor: pointer;
-  ${(props) => (props.checked ? "salmon" : "papayawhip")}
+  border: ${(props) =>
+    props.checkThis ? "2px solid #ff3774" : "1px solid #ddd"};
 `;
 
 const ChangeBtn = styled.button`
