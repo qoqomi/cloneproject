@@ -75,6 +75,12 @@ function Chat() {
       });
   };
 
+  const onKeyPress = (e) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  };
+
   return (
     <Template>
       <ChatListBtn
@@ -124,7 +130,11 @@ function Chat() {
         })}
       </ChatArea>
       <MessageCover>
-        <MessageInput id="messageInput" ref={inputCurrent} />
+        <MessageInput
+          id="messageInput"
+          ref={inputCurrent}
+          onKeyPress={onKeyPress}
+        />
         <MessageBtn
           inputValue={inputCurrent === "" ? false : true}
           onClick={sendMessage}
