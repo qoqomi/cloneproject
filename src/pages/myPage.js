@@ -70,6 +70,7 @@ function MyPage() {
     console.log(frm);
     dispatch(modifyMyInfoAxios(frm)).then(() => {
       alert("변경되었습니다!");
+      navigate("/main");
     });
   };
 
@@ -98,6 +99,7 @@ function MyPage() {
       <LogoutBtn
         onClick={() => {
           localStorage.removeItem("token");
+          navigate("/");
         }}
       >
         로그아웃
