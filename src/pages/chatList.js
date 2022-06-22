@@ -77,7 +77,7 @@ function ChatList() {
                   gotoChatroom(v.userEmail);
                 }}
               >
-                <ProfileImg src={v.profileImage} />
+                <ProfileImg src={"http://15.165.160.107/" + v.imageUrl} />
                 <NameCover>
                   <Name>{v.userName}</Name>
                 </NameCover>

@@ -20,7 +20,6 @@ function Chat() {
   const id = useSelector((state) => state.user.userinfo.userEmail);
   const socket = io.connect("http://sparta-swan.shop/chat", {
     path: "/socket.io",
-    roomId: params.roomId,
   });
 
   React.useEffect(() => {
@@ -37,7 +36,7 @@ function Chat() {
 
   React.useEffect(() => {
     return () => {
-      socket.on("disconnect");
+      socket.on("leave");
     };
   }, []);
 
@@ -89,7 +88,7 @@ function Chat() {
   // ];
 
   const sendMessage = () => {
-    if (inputCurrent === "" || null) {
+    if (inputCurrent.current.value === "" || null) {
       return false;
     }
     const chatData = {
@@ -115,7 +114,7 @@ function Chat() {
       </ChatListBtn>
       <ChatHeader>
         <ProfileCover>
-          <ProfileImg src={otherInfo.imageUrl} />
+          <ProfileImg src={"http://15.165.160.107/" + otherInfo.imageUrl} />
           <NameCover>
             <Name>{otherInfo.name}</Name>
           </NameCover>
@@ -133,7 +132,9 @@ function Chat() {
           ) : (
             <ChatCoverYou key={"chat" + i}>
               <ChatProfileCover>
-                <ChatProfileImg src={otherInfo.imageUrl} />
+                <ChatProfileImg
+                  src={"http://15.165.160.107/" + otherInfo.imageUrl}
+                />
               </ChatProfileCover>
               <ChattingCoverYou>
                 <Chatting>{v.chat}</Chatting>
@@ -195,6 +196,7 @@ const ChatCoverYou = styled.div`
   height: fit-content;
   display: flex;
   margin-top: 10px;
+  word-break: break-all;
 `;
 
 const ChatCoverMe = styled.div`
@@ -204,6 +206,7 @@ const ChatCoverMe = styled.div`
   justify-content: right;
   margin-top: 10px;
   margin-bottom: 10px;
+  word-break: break-all;
 `;
 
 const ProfileCover = styled.div`

@@ -9,10 +9,14 @@ import {
 } from "../modules/myInfo";
 import { useNavigate } from "react-router-dom";
 import { apis } from "../shared/api";
+import { categories } from "../shared/category";
 
 function MyPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const userIntro = React.useRef(null);
+  const workPlace = React.useRef(null);
 
   const myInfo = useSelector((state) => state.myInfo.myInfo);
 
@@ -32,33 +36,6 @@ function MyPage() {
     setMyCategory(myInfo.category);
   }, [myInfo]);
 
-  const checkData = [
-    { id: 1, name: "PC방" },
-    { id: 2, name: "산책" },
-    { id: 3, name: "카페" },
-    { id: 4, name: "반려동물" },
-    { id: 5, name: "드라마" },
-    { id: 6, name: "맛집" },
-    { id: 7, name: "전시회" },
-    { id: 8, name: "만화" },
-    { id: 9, name: "방탈출" },
-    { id: 10, name: "캠핑" },
-    { id: 11, name: "쇼핑" },
-    { id: 12, name: "스포츠" },
-    { id: 13, name: "인스타그램" },
-    { id: 14, name: "언어교환" },
-    { id: 15, name: "영화" },
-    { id: 16, name: "독서" },
-    { id: 17, name: "노래방" },
-    { id: 18, name: "요리" },
-    { id: 19, name: "술" },
-    { id: 20, name: "패션" },
-    { id: 21, name: "여행" },
-    { id: 22, name: "등산" },
-    { id: 23, name: "사진" },
-    { id: 24, name: "봉사" },
-  ];
-
   const checkHandler = ({ target }) => {
     const myElement = document.getElementById(`${target.value}label`);
     if (target.checked) {
@@ -72,9 +49,14 @@ function MyPage() {
   };
 
   const changeProfile = () => {
+    console.log(userIntro.current.value, myCategory, workPlace.current.value);
     let frm = new FormData();
-    frm.append("userIntro", "wfe");
-    modifyMyInfoAxios(frm);
+    frm.append("userIntro", userIntro.current.value);
+    frm.append("category", JSON.stringify(myCategory));
+    frm.append("imageUrl", null);
+    frm.append("workPlace", workPlace.current.value);
+    console.log(frm);
+    dispatch(modifyMyInfoAxios(frm));
   };
 
   return (
@@ -100,12 +82,12 @@ function MyPage() {
         로그아웃
       </LogoutBtn>
       <BoldTitle>자기소개</BoldTitle>
-      <UserIntroInput defaultValue={myInfo.userIntro} />
+      <UserIntroInput defaultValue={myInfo.userIntro} ref={userIntro} />
       <BoldTitle>직장/학교</BoldTitle>
-      <UserWorkPlaceInput defaultValue={myInfo.workPlace} />
+      <UserWorkPlaceInput defaultValue={myInfo.workPlace} ref={workPlace} />
       <BoldTitle>카테고리</BoldTitle>
       <CheckForm>
-        {checkData.map((v, i) => {
+        {categories.map((v, i) => {
           return (
             <CheckBoxLabel key={i} htmlFor={v.name} id={v.name + "label"}>
               <CheckBoxInput
@@ -122,7 +104,13 @@ function MyPage() {
           );
         })}
       </CheckForm>
-      <ChangeBtn onClick={changeProfile}>프로필 변경</ChangeBtn>
+      <ChangeBtn
+        onClick={() => {
+          changeProfile();
+        }}
+      >
+        프로필 변경
+      </ChangeBtn>
     </LoginTemplate>
   );
 }
