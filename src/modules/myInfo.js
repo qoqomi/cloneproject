@@ -1,3 +1,4 @@
+import { faL } from "@fortawesome/free-solid-svg-icons";
 import { apis } from "../shared/api";
 
 // action
@@ -38,6 +39,22 @@ export const getMyInfoAxios = (frm) => {
         console.log(err);
       });
     return res;
+  };
+};
+
+export const modifyMyInfoAxios = (frm) => {
+  return async function () {
+    let success = null;
+    await apis
+      .modifyMyInfo(frm)
+      .then(() => {
+        success = true;
+      })
+      .catch((err) => {
+        success = false;
+        console.log(err);
+      });
+    return success;
   };
 };
 
