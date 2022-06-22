@@ -54,12 +54,29 @@ export const signupAxios = (frm) => {
     return res;
   };
 };
+// 변경전
+// export const loginAxios = (userEmail, password) => {
+//   console.log(userEmail, password);
+//   return async function (dispatch) {
+//     await apis
+//       .login(userEmail, password)
+//       .then((res) => {
+//         console.log("들어옴:redux");
+//         dispatch(login(userEmail));
+//         console.log(login(res));
+//       })
+//       .catch((err) => {
+//         ar("로그인에러:", err.message);
+//       });
+//   };
+// };
 
 export const loginAxios = (userEmail, password) => {
   return async function (dispatch) {
     let success = null;
     await apis
       .login(userEmail, password)
+
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         dispatch(login(userEmail));
@@ -73,23 +90,6 @@ export const loginAxios = (userEmail, password) => {
     return success;
   };
 };
-
-// export const loginAxios = (userEmail, password) => {
-//   return async function (dispatch) {
-//     let success = null;
-//     await apis
-//       .login(userEmail, password)
-//       .then((res) => {
-//         dispatch(login(res));
-//         success = true;
-//       })
-//       .catch((err) => {
-//         success = false;
-//         alert("아이디와 패스워드를 확인해주세요!");
-//       });
-//     return success;
-//   };
-// };
 
 export const checkUserValidation = () => {
   return async function (dispatch) {
@@ -105,6 +105,7 @@ export const checkUserValidation = () => {
       });
   };
 };
+
 
 // reducer
 export default function reducer(state = initialState, action = {}) {
