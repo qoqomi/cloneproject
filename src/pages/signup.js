@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { userInfo } from "../modules/user.js";
+
 function SignUp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -48,7 +49,6 @@ function SignUp() {
     if (password === e.target.value) setConfirmPasswordError(false);
     else setConfirmPasswordError(true);
     setPasswordCheck(e.target.value);
-    console.log(passwordCheck);
   };
 
   const onChangeUserName = (e) => {
@@ -63,12 +63,6 @@ function SignUp() {
     else setuserAgeError(true);
     setUserAge(e.target.value);
   };
-
-  window.addEventListener("keyup", (e) => {
-    if (e.key === "Enter") {
-      signupOnClick();
-    }
-  });
 
   const signupOnClick = async () => {
     if (
@@ -105,6 +99,11 @@ function SignUp() {
     navigate("/signupImg");
   };
 
+  const onKeyPress = (e) => {
+    if (e.key == "Enter") {
+      signupOnClick();
+    }
+  };
   return (
     <LoginTemplate>
       <Form>
@@ -117,6 +116,7 @@ function SignUp() {
             value={userEmail}
             onChange={onChangeEmail}
             maxLength={20}
+            onKeyPress={onKeyPress}
           />
           {emailError && <ValiDiv>이메일 형식에 맞지 않습니다.</ValiDiv>}
         </Div>
@@ -129,6 +129,7 @@ function SignUp() {
             value={password}
             onChange={onChangePassword}
             maxLength={20}
+            onKeyPress={onKeyPress}
           />
           {passwordError && (
             <ValiDiv>
@@ -146,6 +147,7 @@ function SignUp() {
             value={passwordCheck}
             onChange={onChangeConfirmPassword}
             maxLength={20}
+            onKeyPress={onKeyPress}
           />
           {confirmPasswordError && <ValiDiv>비밀번호를 확인해주세요.</ValiDiv>}
         </Div>
@@ -158,6 +160,7 @@ function SignUp() {
             value={userName}
             onChange={onChangeUserName}
             maxLength={5}
+            onKeyPress={onKeyPress}
           />
           {userNameError && <ValiDiv>이름을 입력해주세요</ValiDiv>}
         </Div>
@@ -170,6 +173,7 @@ function SignUp() {
             value={userAge}
             onChange={onChangeAge}
             maxLength={2}
+            onKeyPress={onKeyPress}
           />
           {userAgeError && <ValiDiv>숫자만 입력해주세요.</ValiDiv>}
         </Div>

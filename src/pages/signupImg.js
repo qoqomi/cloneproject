@@ -202,7 +202,7 @@ const Label = styled.label`
   background-color: pink;
   border-radius: 50%;
   position: absolute;
-  bottom: 190px;
+  bottom: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -214,7 +214,7 @@ const Label = styled.label`
 const Button = styled.button`
   font-size: 18px;
   border-radius: 50px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border: none;
   padding: 18px;
   width: 20em;

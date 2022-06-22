@@ -1,4 +1,3 @@
-import axios from "axios";
 import { apis } from "../shared/api";
 
 // Actions
@@ -32,25 +31,6 @@ export const loadPeopleAxios = () => {
       });
   };
 };
-
-// export const goodPeopleAxios = (userId, select) => {
-//   return async function (dispatch) {
-//     await apis
-//       .selectGood(userId, select)
-//       .then((res) => {
-//         console.log(res);
-//         const data = res.data.users[0];
-//         const post = {
-//           userId: data.userId,
-//           select: data.select,
-//         };
-//         dispatch(goodPeople(post));
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-// };
 
 export const goodPeopleAxios = (selectId, select) => {
   console.log(selectId);

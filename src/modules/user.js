@@ -54,60 +54,26 @@ export const signupAxios = (frm) => {
     return res;
   };
 };
-// 변경전
-// export const loginAxios = (userEmail, password) => {
-//   console.log(userEmail, password);
-//   return async function (dispatch) {
-//     await apis
-//       .login(userEmail, password)
-//       .then((res) => {
-//         console.log("들어옴:redux");
-//         dispatch(login(userEmail));
-//         console.log(login(res));
-//       })
-//       .catch((err) => {
-//         ar("로그인에러:", err.message);
-//       });
-//   };
-// };
 
 export const loginAxios = (userEmail, password) => {
   return async function (dispatch) {
-    let res = null;
+    let success = null;
     await apis
       .login(userEmail, password)
 
       .then((res) => {
+        localStorage.setItem("token", res.data.token);
         dispatch(login(userEmail));
         console.log(login(res));
-        res = true;
+        success = true;
       })
       .catch((err) => {
-        console.log("로그인에러:", err.message);
-
+        success = false;
         console.log(err);
-        res = false;
       });
-    return res;
+    return success;
   };
 };
-
-// export const loginAxios = (userEmail, password) => {
-//   return async function (dispatch) {
-//     let success = null;
-//     await apis
-//       .login(userEmail, password)
-//       .then((res) => {
-//         dispatch(login(res));
-//         success = true;
-//       })
-//       .catch((err) => {
-//         success = false;
-//         alert("아이디와 패스워드를 확인해주세요!");
-//       });
-//     return success;
-//   };
-// };
 
 export const checkUserValidation = () => {
   return async function (dispatch) {
@@ -166,6 +132,4 @@ export default function reducer(state = initialState, action = {}) {
     default:
       return state;
   }
-
-  // do reducer stuff
 }

@@ -20,20 +20,17 @@ function Main() {
   const personImage = person.length > 0 ? person[0].imageUrl : "";
 
   const [view, setView] = useState(true);
-  const [select, setSelect] = useState(false);
-  console.log("personImage:", personImage);
+
   useEffect(() => {
     dispatch(loadPeopleAxios());
   }, []);
   const [modal, setModal] = useState(false);
 
   const onClickLike = (userId, likedOrNot) => {
-    // setView((prev) => !prev);
     dispatch(goodPeopleAxios(userId, likedOrNot));
   };
 
   const onClickBad = (userId, likedOrNot) => {
-    // setView((prev) => !prev);
     console.log(view);
 
     dispatch(badPeopleAxios(userId, likedOrNot));
@@ -51,8 +48,10 @@ function Main() {
               backgroundImage: `url(${person.length > 0 ? personImage : ""})`,
             }}
           >
-            <H3>{person.length > 0 ? person[0].userName : ""}</H3>
-            <H4>{person.length > 0 ? person[0].userAge : ""}</H4>
+            <div>
+              <H3>{person.length > 0 ? person[0].userName : ""}</H3>
+              <H4>{person.length > 0 ? person[0].userAge : ""}</H4>
+            </div>
           </OneCard>
         </Div>
         <ButtonDiv>
@@ -105,10 +104,9 @@ const Div = styled.div`
   max-width: 85vw;
   height: 500px;
 
-  //카드 부모
   background-size: cover;
   background-position: center;
-  //
+
   position: relative;
   overflow: hidden;
   border-radius: 20px;
@@ -116,7 +114,6 @@ const Div = styled.div`
 `;
 
 const OneCard = styled.div`
-  //자식
   position: absolute;
   width: 100%;
   height: 100%;
@@ -130,18 +127,18 @@ const OneCard = styled.div`
 const H3 = styled.h3`
   position: absolute;
   font-size: 24px;
-  bottom: 20px;
-  left: 20px;
   font-weight: bold;
+  left: 20px;
+  margin-top: 600px;
+  bottom: 20px;
   color: white;
 `;
 const H4 = styled.h4`
   position: absolute;
   font-size: 20px;
-  bottom: 20px;
-  left: 90px;
   color: white;
-  margin-left: 10px;
+  margin-top: 600px;
+  margin-left: 30px;
 `;
 const ButtonDiv = styled.div`
   display: flex;
