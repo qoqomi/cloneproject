@@ -14,8 +14,6 @@ function Login() {
   const usernameRef = React.useRef(null);
   const passwordRef = React.useRef(null);
 
-  const [error, setError] = useState("");
-
   const loginFB = async () => {
     if (
       usernameRef.current.value === "" ||
@@ -25,6 +23,7 @@ function Login() {
     ) {
       alert("빈칸을 입력해주세요");
     } else {
+        document.getElementById("LoginBtn").disabled = true;
       try {
         await dispatch(
           loginAxios(usernameRef.current.value, passwordRef.current.value)
@@ -33,13 +32,14 @@ function Login() {
             alert("로그인되었습니다!");
             navigate("/main");
           } else {
-            // document.getElementById("LoginBtn").disabled = false;
+            document.getElementById("LoginBtn").disabled = false;
             alert("아이디와 비밀번호를 확인해주세요!");
           }
         });
       } catch (err) {
         console.log(err);
       }
+
     }
   };
 
@@ -61,7 +61,9 @@ function Login() {
           ref={passwordRef}
         />
         <ButtomDiv>
-          <Button onClick={loginFB}>Login</Button>
+          <Button id="LoginBtn" onClick={loginFB}>
+            Login
+          </Button>
 
           <Next
             onClick={() => {
