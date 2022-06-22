@@ -76,7 +76,8 @@ function SignupImg() {
         }
       });
     } catch (err) {
-      alert("에러입니다!" + err);
+      alert("해당 이메일은 이미 가입된 이메일입니다!");
+      navigate("/signup");
     }
   };
 
