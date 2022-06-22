@@ -55,19 +55,15 @@ chatApi.interceptors.request.use(function (config) {
 
 export const apis = {
   // people
-    selectGood: (userId, select) =>
+  selectGood: (userId, select) =>
     api.post("/api/recommends/select", { selectId: userId, select: select }),
 
   selectBad: (userId, select) =>
     api.post("/api/recommends/select", { selectId: userId, select: select }),
-  
+
   // user
   login: (userEmail, password) =>
-    api
-      .post("/api/users/login", { userEmail: userEmail, password: password })
-      .then((user) => {
-        localStorage.setItem("token", user.data.token);
-      }),
+    api.post("/api/users/login", { userEmail: userEmail, password: password }),
 
   signup: (frm) => imgApi.post("/api/users/signup", frm),
 
@@ -84,5 +80,4 @@ export const apis = {
       other: other,
     }),
   getInitialChat: (roomId) => chatApi.get(`/chatlist/${roomId}`),
-
 };

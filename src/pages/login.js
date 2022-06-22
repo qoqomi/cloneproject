@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
+
 import { loginAxios } from "../modules/user";
 import { useSelector } from "react-redux";
 
@@ -28,12 +29,15 @@ function Login() {
     try {
       await dispatch(
         loginAxios(usernameRef.current.value, passwordRef.current.value)
-      ).then((success) => {
-        alert("로그인이 완료되었습니다.");
-        navigate("/main");
-      });
+      );
+      // .then((success) => {
+      // console.log("로그인:", success);
+      // alert("로그인이 완료되었습니다.");
+      // navigate("/main");
+      // }
+      // );
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
