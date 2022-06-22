@@ -14,8 +14,6 @@ function Login() {
   const usernameRef = React.useRef(null);
   const passwordRef = React.useRef(null);
 
-  const [error, setError] = useState("");
-
   const loginFB = async () => {
     if (
       usernameRef.current.value === "" ||
@@ -24,22 +22,18 @@ function Login() {
       passwordRef.current.value === " "
     ) {
       alert("빈칸을 입력해주세요");
-    } else {
-      try {
-        await dispatch(
-          loginAxios(usernameRef.current.value, passwordRef.current.value)
-        ).then((success) => {
-          navigate("/main");
-          console.log(success);
-          if (success === true) {
-            alert("로그인되었습니다!");
-          } else {
-            // document.getElementById("LoginBtn").disabled = false;
-          }
-        });
-      } catch (err) {
-        console.log(err);
-      }
+      return false;
+    }
+    document.getElementById("LoginBtn").disabled = true;
+    try {
+      await dispatch(
+        loginAxios(usernameRef.current.value, passwordRef.current.value)
+      ).then((success) => {
+        alert("로그인이 완료되었습니다.");
+        navigate("/main");
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -61,7 +55,9 @@ function Login() {
           ref={passwordRef}
         />
         <ButtomDiv>
-          <Button onClick={loginFB}>Login</Button>
+          <Button id="LoginBtn" onClick={loginFB}>
+            Login
+          </Button>
 
           <Next
             onClick={() => {
