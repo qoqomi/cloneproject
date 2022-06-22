@@ -210,7 +210,6 @@ const ButtomDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 80%;
-]
 `;
 const Button = styled.button`
   font-size: 18px;
