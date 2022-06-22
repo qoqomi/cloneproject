@@ -18,6 +18,7 @@ const ROOMID = "chatInfo/ROOMID";
 const INITIALCHAT = "chatInfo/INITIALCHAT";
 const CHATSOCKET = "chatInfo/CHATSOCKET";
 const OTHERINFO = "chatInfo/OTHERINFO";
+const CLEARCHAT = "chatInfo/CLEARCHAT";
 
 // Action Creators
 export function loadChats(chatList) {
@@ -38,6 +39,10 @@ export function chatSocket(data) {
 
 export function otherInfo(data) {
   return { type: OTHERINFO, data };
+}
+
+export function clearChat() {
+  return { type: CLEARCHAT };
 }
 
 //middlewares
@@ -131,6 +136,14 @@ export default function reducer(state = initialState, action = {}) {
         chat: state.chat,
         roomId: state.roomId,
         otherInfo: newOtherInfo,
+      };
+    }
+    case "chatInfo/CLEARCHAT": {
+      return {
+        list: state.list,
+        chat: [],
+        roomId: null,
+        otherInfo: state.otherInfo,
       };
     }
 

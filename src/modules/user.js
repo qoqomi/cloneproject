@@ -16,9 +16,9 @@ const initialState = {
     userAge: null,
     imageUrl: null,
   },
-  userinfo: {
+  userInfo: {
     userEmail: null,
-    is_login: false,
+    is_login: null,
   },
 };
 
@@ -77,14 +77,13 @@ export const loginAxios = (userEmail, password) => {
 
 export const checkUserValidation = () => {
   return async function (dispatch) {
-    console.log("here");
     await apis
       .checkUser()
       .then((res) => {
-        dispatch(login(res.data.userEmail));
+        dispatch(login(res.data.user.userEmail));
       })
       .catch((err) => {
-        // localStorage.removeItem("token");
+        dispatch(logOut());
         console.log(err);
       });
   };
@@ -101,7 +100,7 @@ export default function reducer(state = initialState, action = {}) {
       };
       return {
         signup: state.info,
-        userinfo: newUserInfo,
+        userInfo: newUserInfo,
       };
     }
     case "user/LOGOUT": {
@@ -112,21 +111,21 @@ export default function reducer(state = initialState, action = {}) {
       };
       return {
         signup: state.info,
-        userinfo: newUserInfo,
+        userInfo: newUserInfo,
       };
     }
     case "user/USERINFO": {
       const newUserInfo = action.info;
       return {
         signup: newUserInfo,
-        userInfo: state.userinfo,
+        userInfo: state.userInfo,
       };
     }
     case "user/USERINFOTOTAL": {
       const newUserInfo = action.infototal;
       return {
         signup: newUserInfo,
-        userInfo: state.userinfo,
+        userInfo: state.userInfo,
       };
     }
     default:

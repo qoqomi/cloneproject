@@ -3,21 +3,38 @@ import Template from "../components/template";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { goodPeopleAxios, badPeopleAxios } from "../modules/people";
-
+import {
+  goodPeopleAxios,
+  badPeopleAxios,
+  loadPeopleAxios,
+} from "../modules/people";
 import Detail from "./detail";
-
-import { loadPeopleAxios } from "../modules/people";
 import { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faXmark, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { checkUserValidation } from "../modules/user";
+
 function Main() {
   const dispatch = useDispatch();
   const person = useSelector((state) => state.people.users);
   const navigate = useNavigate();
   const personId = person.length > 0 ? person[0]._id : "";
   const personImage = person.length > 0 ? person[0].imageUrl : "";
+
+  const isLogin = useSelector((state) => state.user.userInfo.is_login);
+
+  React.useEffect(() => {
+    if (isLogin === null) {
+      console.log("null");
+      dispatch(checkUserValidation());
+      return;
+    }
+    if (!isLogin) {
+      console.log("false");
+      navigate("/");
+    }
+  }, [isLogin]);
 
   const [view, setView] = useState(true);
 
