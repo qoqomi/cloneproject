@@ -29,6 +29,7 @@ function Login() {
         await dispatch(
           loginAxios(usernameRef.current.value, passwordRef.current.value)
         ).then((res) => {
+          console.log(res);
           if (res === true) {
             alert("로그인되었습니다!");
             navigate("/main");
