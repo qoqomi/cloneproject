@@ -5,16 +5,23 @@ import { apis } from "../shared/api";
 const initialState = {
   list: [],
   chat: [],
+  roomId: null,
+  // myUniqueId: null,
 };
 
 // Actions
 const LOAD = "chatInfo/LOAD";
+const ROOMID = "chatInfo/ROOMID";
 const INITIALCHAT = "chatInfo/INITIALCHAT";
 const CHATSOCKET = "chatInfo/CHATSOCKET";
 
 // Action Creators
 export function loadChats(chatList) {
   return { type: LOAD, chatList };
+}
+
+export function roomId(id) {
+  return { type: ROOMID, id };
 }
 
 export function initialChat(chat) {
@@ -31,11 +38,27 @@ export const ChatListAxios = (id) => {
     await apis
       .loadChatList(id)
       .then((chatList) => {
-        dispatch(loadChats(chatList));
+        dispatch(loadChats(chatList.data.member2));
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+};
+
+export const getRoomIdAxios = (id, other) => {
+  return async function (dispatch) {
+    let myRoomId = null;
+    await apis
+      .getRoomId(id, other)
+      .then((res) => {
+        dispatch(roomId(res.data));
+        myRoomId = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return myRoomId;
   };
 };
 
@@ -59,18 +82,29 @@ export default function reducer(state = initialState, action = {}) {
       return {
         list: action.chatList,
         chat: state.chat,
+        roomId: state.roomId,
+      };
+    }
+    case "chatInfo/ROOMID": {
+      return {
+        list: state.list,
+        chat: state.chat,
+        roomId: action.id,
       };
     }
     case "chatInfo/INITIALCHAT": {
       return {
         list: state.list,
         chat: action.chat,
+        roomId: state.roomId,
       };
     }
     case "chatInfo/CHATSOCKET": {
+      console.log(action.data);
       return {
         list: state.list,
-        chat: { ...state.chat, ...action.chat },
+        chat: [...state.chat, action.data],
+        roomId: state.roomId,
       };
     }
 

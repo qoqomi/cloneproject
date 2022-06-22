@@ -9,6 +9,7 @@ import { signupAxios } from "../modules/user.js";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
+
 function SignupImg() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

@@ -3,19 +3,26 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import { ChatListAxios } from "../modules/chatInfo";
+import { getRoomIdAxios, ChatListAxios } from "../modules/chatInfo";
 
 function ChatList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const id = "62ad35d9a3f46c2a79b8fb2c";
+  const id = "62afc9b1d6296a59bd6f8989";
 
   React.useEffect(() => {
     dispatch(ChatListAxios(id));
   }, []);
 
   const chatlist = useSelector((state) => state.chatInfo.list);
+  const roomId = useSelector((state) => state.chatInfo);
+
+  const gotoChatroom = async (other) => {
+    await dispatch(getRoomIdAxios(id, other)).then((res) => {
+      navigate(`/room/${res}`);
+    });
+  };
 
   // const chatlist = [
   //   {
@@ -66,16 +73,12 @@ function ChatList() {
             <div key={"chatlist" + i}>
               <ProfileCover
                 onClick={() => {
-                  navigate("/chat", {
-                    state: {
-                      userId: v.name,
-                    },
-                  });
+                  gotoChatroom(v.userEmail);
                 }}
               >
-                {/* <ProfileImg src={v.image} /> */}
+                <ProfileImg src={v.profileImage} />
                 <NameCover>
-                  <Name>{v.name}</Name>
+                  <Name>{v.userName}</Name>
                 </NameCover>
               </ProfileCover>
               {chatlist.length - 1 === i ? null : <ProfileLine />}
