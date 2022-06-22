@@ -1,84 +1,72 @@
 import styled from "styled-components";
 import Template from "../components/template";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {
-  loadPeople,
-  goodPeopleAxios,
-  goodPeople,
-  badPeople,
-  badPeopleAxios,
-} from "../modules/people";
-import { useParams } from "react-router-dom";
+import { goodPeopleAxios, badPeopleAxios } from "../modules/people";
+
 import { loadPeopleAxios } from "../modules/people";
 import { keyframes } from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faXmark } from "@fortawesome/free-solid-svg-icons";
 function Main() {
-  const person = useSelector((state) => state.people.users);
-  console.log(person);
-  const [update, setUpdate] = useState([]);
-
   const dispatch = useDispatch();
+  const person = useSelector((state) => state.people.users);
+  console.log("person:", person);
+  const personId = person.length > 0 ? person[0]._id : "";
+  const personImage = person.length > 0 ? person[0].imageUrl : "";
   const [view, setView] = useState(true);
-
   const [select, setSelect] = useState(false);
-  React.useEffect(() => {
+  console.log("personImage:", personImage);
+  useEffect(() => {
     dispatch(loadPeopleAxios());
   }, []);
 
-  React.useEffect(() => {
-    setUpdate(person);
-  }, [person]);
-
-  // const onClickLike = async (userId, likedOrNot) => {
-  //   await dispatch(goodPeopleAxios(userId, likedOrNot))
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  //   dispatch(goodPeople(userId, likedOrNot));
-  // };
-  const onClickBad = () => {
+  const onClickLike = (userId, likedOrNot) => {
     setView((prev) => !prev);
-
-    const person_bad = (person.users[0]._id, false);
-    dispatch(badPeopleAxios(person_bad));
+    dispatch(goodPeopleAxios(userId, likedOrNot));
   };
 
-  // const img = update.length > 0 ? update?.users[0].imageUrl : "";
+  const onClickBad = (userId, likedOrNot) => {
+    setView((prev) => !prev);
+
+    dispatch(badPeopleAxios(userId, likedOrNot));
+  };
   return (
     person && (
       <Template>
         <Div>
-          (
-          <>
-            {view ? (
-              <OneCard
-                id="oneCard"
-                style={{
-                  zIndex: view ? 0 : 1,
-                  // backgroundImage: `url(${update.users[0].imageUrl})`,
-                }}
-              ></OneCard>
-            ) : (
-              <TwoCard
-                id="twoCard"
-                style={{
-                  zIndex: view ? 1 : 0,
-                  // backgroundImage: `url(${update.users[1].imageUrl})`,
-                }}
-              ></TwoCard>
-            )}
-          </>
-          )
+          <OneCard
+            id="oneCard"
+            style={{
+              zIndex: view ? 1 : 0,
+              backgroundImage: `url(${person.length > 0 ? personImage : ""})`,
+            }}
+          >
+            <H3>{person.length > 0 ? person[0].userName : ""}</H3>
+            <H4>{person.length > 0 ? person[0].userAge : ""}</H4>
+          </OneCard>
+
+          <TwoCard
+            id="twoCard"
+            style={{
+              zIndex: view ? 0 : 1,
+              backgroundImage: `url(${person.length > 0 ? personImage : ""})`,
+            }}
+          >
+            {" "}
+            <H3>{person.length > 0 ? person[1].userName : ""}</H3>
+            <H4>{person.length > 0 ? person[1].userAge : ""}</H4>
+          </TwoCard>
         </Div>
         <ButtonDiv>
-          <ButtomOne id="bad" onClick={onClickBad}>
+          <ButtomOne
+            id="bad"
+            onClick={() => {
+              onClickBad(personId, false);
+            }}
+          >
             <FontAwesomeIcon
               icon={faXmark}
               size="2x"
@@ -88,7 +76,7 @@ function Main() {
           <ButtomTwo
             id="like"
             onClick={async () => {
-              setView((prev) => !prev);
+              onClickLike(personId, true);
             }}
           >
             <FontAwesomeIcon

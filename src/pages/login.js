@@ -17,23 +17,30 @@ function Login() {
   const [error, setError] = useState("");
 
   const loginFB = async () => {
-    try {
-      await dispatch(
-        loginAxios(usernameRef.current.value, passwordRef.current.value)
-      ).then((success) => {
-        navigate("/main");
-        console.log(success);
-        if (success === true) {
-          alert("로그인되었습니다!");
-        } else {
-          // document.getElementById("LoginBtn").disabled = false;
-        }
-      });
-    } catch (err) {
-      console.log(err);
+    if (
+      usernameRef.current.value === "" ||
+      passwordRef.current.value === "" ||
+      usernameRef.current.value === " " ||
+      passwordRef.current.value === " "
+    ) {
+      alert("빈칸을 입력해주세요");
+    } else {
+      try {
+        await dispatch(
+          loginAxios(usernameRef.current.value, passwordRef.current.value)
+        ).then((success) => {
+          navigate("/main");
+          console.log(success);
+          if (success === true) {
+            alert("로그인되었습니다!");
+          } else {
+            // document.getElementById("LoginBtn").disabled = false;
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
-
-    //await
   };
 
   return (
