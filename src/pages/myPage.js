@@ -7,6 +7,7 @@ import {
   cleanMyInfo,
   modifyMyInfoAxios,
 } from "../modules/myInfo";
+import { checkUserValidation } from "../modules/user";
 import { useNavigate } from "react-router-dom";
 import { apis } from "../shared/api";
 import { categories } from "../shared/category";
@@ -21,6 +22,19 @@ function MyPage() {
   const reader = new FileReader();
 
   const myInfo = useSelector((state) => state.myInfo.myInfo);
+  const isLogin = useSelector((state) => state.user.userInfo.is_login);
+
+  React.useEffect(() => {
+    if (isLogin === null) {
+      console.log("null");
+      dispatch(checkUserValidation());
+      return;
+    }
+    if (!isLogin) {
+      console.log("false");
+      navigate("/");
+    }
+  }, [isLogin]);
 
   const [myPicUrl, setMyPicUrl] = useState("");
   const [imageState, setImageState] = useState(null);

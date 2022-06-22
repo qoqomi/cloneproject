@@ -18,7 +18,7 @@ const initialState = {
   },
   userInfo: {
     userEmail: null,
-    is_login: false,
+    is_login: null,
   },
 };
 
@@ -77,14 +77,13 @@ export const loginAxios = (userEmail, password) => {
 
 export const checkUserValidation = () => {
   return async function (dispatch) {
-    console.log("here");
     await apis
       .checkUser()
       .then((res) => {
-        dispatch(login(res.data.userEmail));
+        dispatch(login(res.data.user.userEmail));
       })
       .catch((err) => {
-        // localStorage.removeItem("token");
+        dispatch(logOut());
         console.log(err);
       });
   };

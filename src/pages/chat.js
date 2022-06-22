@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { initialChatAxios, chatSocket, clearChat } from "../modules/chatInfo";
+import { checkUserValidation } from "../modules/user";
 import io from "socket.io-client";
 import axios from "axios";
 
@@ -16,6 +17,19 @@ function Chat() {
   console.log(params.roomId);
 
   const otherInfo = useSelector((state) => state.chatInfo.otherInfo);
+  const isLogin = useSelector((state) => state.user.userInfo.is_login);
+
+  React.useEffect(() => {
+    if (isLogin === null) {
+      console.log("null");
+      dispatch(checkUserValidation());
+      return;
+    }
+    if (!isLogin) {
+      console.log("false");
+      navigate("/");
+    }
+  }, [isLogin]);
 
   const id = useSelector((state) => state.user.userInfo.userEmail);
   let socket = io.connect("http://sparta-swan.shop/chat", {
@@ -45,51 +59,6 @@ function Chat() {
   }, []);
 
   const chatlist = useSelector((state) => state.chatInfo.chat);
-
-  // const chatlist = [
-  //   {
-  //     me: false,
-  //     message: "안녕하세요!",
-  //   },
-  //   {
-  //     me: false,
-  //     message: "저는 아이유라고 해요.",
-  //   },
-  //   {
-  //     me: true,
-  //     message: "반가워요!",
-  //   },
-  //   {
-  //     me: true,
-  //     message: "저는 김현빈이라고 해요.",
-  //   },
-  //   {
-  //     me: false,
-  //     message:
-  //       "청담동에 살고 있고, 직업은 가수이자 배우예요. 취미로는 작곡을 하고 있어요. 반가워요. 잘 부탁드려요.",
-  //   },
-  //   {
-  //     me: true,
-  //     message:
-  //       "안산에 살고 있고, 항해99를 하고 있어요. 취미는 엄청 다양한데 요즘은 매일 코딩만 하고 있어요 ㅠㅠㅠ",
-  //   },
-  //   {
-  //     me: false,
-  //     message: "아 진짜요?",
-  //   },
-  //   {
-  //     me: false,
-  //     message: "프론트엔드세요? 백엔드세요?",
-  //   },
-  //   {
-  //     me: true,
-  //     message: "리액트로 프론트엔드 하고 있어요!",
-  //   },
-  //   {
-  //     me: false,
-  //     message: "아하!",
-  //   },
-  // ];
 
   const sendMessage = () => {
     if (inputCurrent.current.value === "" || null) {

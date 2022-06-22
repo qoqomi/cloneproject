@@ -4,20 +4,35 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { getRoomIdAxios, ChatListAxios } from "../modules/chatInfo";
+import { checkUserValidation } from "../modules/user";
 
 function ChatList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const id = useSelector((state) => state.user.userInfo.userEmail);
+
   // const id = "62afc9b1d6296a59bd6f8989";
+
+  const chatlist = useSelector((state) => state.chatInfo.list);
+  const roomId = useSelector((state) => state.chatInfo);
+  const isLogin = useSelector((state) => state.user.userInfo.is_login);
+
+  React.useEffect(() => {
+    if (isLogin === null) {
+      console.log("null");
+      dispatch(checkUserValidation());
+      return;
+    }
+    if (!isLogin) {
+      console.log("false");
+      navigate("/");
+    }
+  }, [isLogin]);
 
   React.useEffect(() => {
     dispatch(ChatListAxios(id));
   }, []);
-
-  const chatlist = useSelector((state) => state.chatInfo.list);
-  const roomId = useSelector((state) => state.chatInfo);
 
   const gotoChatroom = async (other) => {
     await dispatch(getRoomIdAxios(id, other)).then((res) => {
