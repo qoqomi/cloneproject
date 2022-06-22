@@ -48,29 +48,6 @@ function Main() {
             <H3>{person.length > 0 ? person[0].userName : ""}</H3>
             <H4>{person.length > 0 ? person[0].userAge : ""}</H4>
           </OneCard>
-
-          {/* <TwoCard
-            id="twoCard"
-            style={{
-              zIndex: view ? 0 : 1,
-              backgroundImage: `url(${person.length > 0 ? personImage : ""})`,
-            }}
-          >
-            <H3
-              style={{
-                zIndex: view ? 0 : 1,
-              }}
-            >
-              {person.length > 0 ? person[1].userName : ""}
-            </H3>
-            <H4
-              style={{
-                zIndex: view ? 0 : 1,
-              }}
-            >
-              {person.length > 0 ? person[1].userAge : ""}
-            </H4>
-          </TwoCard> */}
         </Div>
         <ButtonDiv>
           <ButtomOne
@@ -143,19 +120,6 @@ const OneCard = styled.div`
   background-size: cover;
   background-position: center;
 `;
-// const TwoCard = styled.div`
-//   position: absolute;
-//   width: 100%;
-//   height: 100%;
-//   left: 0;
-//   top: 0;
-//   background-repeat: no-repeat;
-//   background-size: cover;
-//   background-position: center;
-//   /* overflow: hidden; */
-//   border-radius: 20px;
-//   box-shadow: 0px 18px 053px 0px rgba(0, 0, 0, 0.3);
-// `;
 
 const H3 = styled.h3`
   position: absolute;
@@ -176,7 +140,7 @@ const H4 = styled.h4`
 const ButtonDiv = styled.div`
   display: flex;
   width: 100%;
-  margin-top: 50px;
+  padding: 20px;
   justify-content: space-around;
 `;
 const boxFade = keyframes`

@@ -76,7 +76,12 @@ function SignupImg() {
         }
       });
     } catch (err) {
-      alert("에러입니다!" + err);
+      if (
+        err === "TypeError: Cannot read properties of null (reading 'response')"
+      ) {
+        alert("이미 가입된 정보입니다. ");
+      }
+      채ㅜ내ㅣㄷ.ㅣㅐㅎ(
     }
   };
 

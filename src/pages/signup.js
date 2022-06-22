@@ -15,30 +15,54 @@ function SignUp() {
   const [userAge, setUserAge] = useState("");
 
   const [emailError, setEmailError] = useState(false);
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    if (name === "addEmail") {
-      setUserEmail(value);
-    } else if (name === "addPassword") {
-      setPassword(value);
-    } else if (name === "passwordCheck") {
-      setPasswordCheck(value);
-    } else if (name === "name") {
-      setUserName(value);
-    } else if (name === "age") {
-      setUserAge(value);
-    }
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [userNameError, setUserNameError] = useState(false);
+  const [userAgeError, setuserAgeError] = useState(false);
+
+  // 유효성검사 추가중
+  const onChangeEmail = (e) => {
+    const emailRegex =
+      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    if (!e.target.value || emailRegex.test(e.target.value))
+      setEmailError(false);
+    else setEmailError(true);
+    setUserEmail(e.target.value);
+    console.log(userEmail);
   };
-  //유효성검사 추가중
-  // const onChangeEmail = (e) => {
-  //   const emailRegex =
-  //     /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-  //   if (!e.target.value || emailRegex.test(e.target.value))
-  //     setEmailError(false);
-  //   else setEmailError(true);
-  //   setUserEmail(e.target.value);
-  //   console.log(userEmail);
-  // };
+
+  const onChangePassword = (e) => {
+    const passwordRegex =
+      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+    if (!e.target.value || passwordRegex.test(e.target.value))
+      setPasswordError(false);
+    else setPasswordError(true);
+
+    if (!passwordCheck || e.target.value === passwordCheck)
+      setConfirmPasswordError(false);
+    else setConfirmPasswordError(true);
+    setPassword(e.target.value);
+  };
+
+  const onChangeConfirmPassword = (e) => {
+    if (password === e.target.value) setConfirmPasswordError(false);
+    else setConfirmPasswordError(true);
+    setPasswordCheck(e.target.value);
+    console.log(passwordCheck);
+  };
+
+  const onChangeUserName = (e) => {
+    setUserNameError(false);
+    setUserName(e.target.value);
+  };
+
+  const onChangeAge = (e) => {
+    const emailRegex = /^[0-9]*$/;
+    if (!e.target.value || emailRegex.test(e.target.value))
+      setuserAgeError(false);
+    else setuserAgeError(true);
+    setUserAge(e.target.value);
+  };
 
   window.addEventListener("keyup", (e) => {
     if (e.key === "Enter") {
@@ -78,6 +102,7 @@ function SignUp() {
         userAge: userAge,
       })
     );
+    navigate("/signupImg");
   };
 
   return (
@@ -90,7 +115,7 @@ function SignUp() {
             type="email"
             placeholder="아이디"
             value={userEmail}
-            onChange={onChange}
+            onChange={onChangeEmail}
             maxLength={20}
           />
           {emailError && <ValiDiv>이메일 형식에 맞지 않습니다.</ValiDiv>}
@@ -102,39 +127,53 @@ function SignUp() {
             type="password"
             placeholder="비밀번호"
             value={password}
-            onChange={onChange}
+            onChange={onChangePassword}
+            maxLength={20}
           />
-          {emailError && (
+          {passwordError && (
             <ValiDiv>
-              숫자, 영어, 특수문자 조합 8~16글자로 입력해주세요{" "}
+              숫자, 영어, 특수문자 조합 8~16글자로 입력해주세요.
             </ValiDiv>
           )}
         </Div>
 
-        <LOG
-          required
-          name="passwordCheck"
-          type="password"
-          placeholder="비밀번호 확인"
-          value={passwordCheck}
-          onChange={onChange}
-        />
-        <LOG
-          required
-          name="name"
-          type="text"
-          placeholder="이름"
-          value={userName}
-          onChange={onChange}
-        />
-        <LOG
-          required
-          name="age"
-          type="text"
-          placeholder="나이"
-          value={userAge}
-          onChange={onChange}
-        />
+        <Div>
+          <LOG
+            required
+            name="passwordCheck"
+            type="password"
+            placeholder="비밀번호 확인"
+            value={passwordCheck}
+            onChange={onChangeConfirmPassword}
+            maxLength={20}
+          />
+          {confirmPasswordError && <ValiDiv>비밀번호를 확인해주세요.</ValiDiv>}
+        </Div>
+        <Div>
+          <LOG
+            required
+            name="name"
+            type="text"
+            placeholder="이름"
+            value={userName}
+            onChange={onChangeUserName}
+            maxLength={5}
+          />
+          {userNameError && <ValiDiv>이름을 입력해주세요</ValiDiv>}
+        </Div>
+        <Div>
+          <LOG
+            required
+            name="age"
+            type="text"
+            placeholder="나이"
+            value={userAge}
+            onChange={onChangeAge}
+            maxLength={2}
+          />
+          {userAgeError && <ValiDiv>숫자만 입력해주세요.</ValiDiv>}
+        </Div>
+
         <ButtomDiv>
           <Button color="#fccb4f" id="SignUpBtn" onClick={signupOnClick}>
             Next
@@ -204,13 +243,12 @@ const LOG = styled.input`
 `;
 const ValiDiv = styled.div`
   color: red;
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 const ButtomDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 80%;
-]
 `;
 const Button = styled.button`
   font-size: 18px;
