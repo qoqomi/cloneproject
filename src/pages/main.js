@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { goodPeopleAxios, badPeopleAxios } from "../modules/people";
 
+import Detail from "./detail";
+
 import { loadPeopleAxios } from "../modules/people";
 import { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +25,7 @@ function Main() {
   useEffect(() => {
     dispatch(loadPeopleAxios());
   }, []);
+  const [modal, setModal] = useState(false);
 
   const onClickLike = (userId, likedOrNot) => {
     // setView((prev) => !prev);
@@ -36,7 +39,10 @@ function Main() {
     dispatch(badPeopleAxios(userId, likedOrNot));
   };
   return (
-    person && (
+    person &&
+    (modal === true ? (
+      <Detail close={setModal} />
+    ) : (
       <Template>
         <Div>
           <OneCard
@@ -66,7 +72,7 @@ function Main() {
           <ButtomMypage
             id="like"
             onClick={() => {
-              navigate("/mypage");
+              setModal(true);
             }}
           >
             <FontAwesomeIcon
@@ -90,7 +96,7 @@ function Main() {
           </ButtomTwo>
         </ButtonDiv>
       </Template>
-    )
+    ))
   );
 }
 

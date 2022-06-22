@@ -9,7 +9,8 @@ function ChatList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const id = "62afc9b1d6296a59bd6f8989";
+  const id = useSelector((state) => state.user.userinfo.userEmail);
+  // const id = "62afc9b1d6296a59bd6f8989";
 
   React.useEffect(() => {
     dispatch(ChatListAxios(id));
@@ -76,7 +77,7 @@ function ChatList() {
                   gotoChatroom(v.userEmail);
                 }}
               >
-                <ProfileImg src={v.profileImage} />
+                <ProfileImg src={"http://15.165.160.107/" + v.imageUrl} />
                 <NameCover>
                   <Name>{v.userName}</Name>
                 </NameCover>
