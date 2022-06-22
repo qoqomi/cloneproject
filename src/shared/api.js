@@ -77,4 +77,10 @@ export const apis = {
       user: user,
       other: other,
     }),
+
+  selectGood: (userId, select) =>
+    api.post("/api/recommends/select", { selectId: userId, select: select }),
+
+  selectBad: (userId, select) =>
+    api.post("/api/recommends/select", { selectId: userId, select: select }),
 };
