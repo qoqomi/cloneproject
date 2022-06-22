@@ -29,6 +29,7 @@ function SignUp() {
       setUserAge(value);
     }
   };
+  //유효성검사 추가중
   // const onChangeEmail = (e) => {
   //   const emailRegex =
   //     /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
