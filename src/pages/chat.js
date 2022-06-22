@@ -3,7 +3,7 @@ import Template from "../components/template";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
-import { initialChatAxios, chatSocket } from "../modules/chatInfo";
+import { initialChatAxios, chatSocket, clearChat } from "../modules/chatInfo";
 import io from "socket.io-client";
 import axios from "axios";
 
@@ -17,7 +17,7 @@ function Chat() {
 
   const otherInfo = useSelector((state) => state.chatInfo.otherInfo);
 
-  const id = useSelector((state) => state.user.userinfo.userEmail);
+  const id = useSelector((state) => state.user.userInfo.userEmail);
   let socket = io.connect("http://sparta-swan.shop/chat", {
     path: "/socket.io",
   });
@@ -39,6 +39,7 @@ function Chat() {
       if (socket) {
         socket.disconnect();
         socket = null;
+        dispatch(clearChat());
       }
     };
   }, []);
