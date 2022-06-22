@@ -9,11 +9,18 @@ import { useSelector } from "react-redux";
 
 function Login() {
   const person = useSelector((state) => state.people.persons);
+  const isLogin = useSelector((state) => state.user.userInfo.is_login);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const usernameRef = React.useRef(null);
   const passwordRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (isLogin) {
+      navigate("/main");
+    }
+  }, [isLogin]);
 
   const loginFB = async () => {
     if (
@@ -24,7 +31,7 @@ function Login() {
     ) {
       alert("빈칸을 입력해주세요");
     } else {
-        document.getElementById("LoginBtn").disabled = true;
+      document.getElementById("LoginBtn").disabled = true;
       try {
         await dispatch(
           loginAxios(usernameRef.current.value, passwordRef.current.value)
@@ -41,7 +48,6 @@ function Login() {
       } catch (err) {
         console.log(err);
       }
-
     }
   };
 

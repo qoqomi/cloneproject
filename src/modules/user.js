@@ -16,9 +16,9 @@ const initialState = {
     userAge: null,
     imageUrl: null,
   },
-  userinfo: {
+  userInfo: {
     userEmail: null,
-    is_login: false,
+    is_login: null,
   },
 };
 
@@ -54,22 +54,6 @@ export const signupAxios = (frm) => {
     return res;
   };
 };
-// 변경전
-// export const loginAxios = (userEmail, password) => {
-//   console.log(userEmail, password);
-//   return async function (dispatch) {
-//     await apis
-//       .login(userEmail, password)
-//       .then((res) => {
-//         console.log("들어옴:redux");
-//         dispatch(login(userEmail));
-//         console.log(login(res));
-//       })
-//       .catch((err) => {
-//         ar("로그인에러:", err.message);
-//       });
-//   };
-// };
 
 export const loginAxios = (userEmail, password) => {
   return async function (dispatch) {
@@ -93,19 +77,17 @@ export const loginAxios = (userEmail, password) => {
 
 export const checkUserValidation = () => {
   return async function (dispatch) {
-    console.log("here");
     await apis
       .checkUser()
       .then((res) => {
-        dispatch(login(res.data.userEmail));
+        dispatch(login(res.data.user.userEmail));
       })
       .catch((err) => {
-        // localStorage.removeItem("token");
+        dispatch(logOut());
         console.log(err);
       });
   };
 };
-
 
 // reducer
 export default function reducer(state = initialState, action = {}) {
@@ -118,7 +100,7 @@ export default function reducer(state = initialState, action = {}) {
       };
       return {
         signup: state.info,
-        userinfo: newUserInfo,
+        userInfo: newUserInfo,
       };
     }
     case "user/LOGOUT": {
@@ -129,21 +111,21 @@ export default function reducer(state = initialState, action = {}) {
       };
       return {
         signup: state.info,
-        userinfo: newUserInfo,
+        userInfo: newUserInfo,
       };
     }
     case "user/USERINFO": {
       const newUserInfo = action.info;
       return {
         signup: newUserInfo,
-        userInfo: state.userinfo,
+        userInfo: state.userInfo,
       };
     }
     case "user/USERINFOTOTAL": {
       const newUserInfo = action.infototal;
       return {
         signup: newUserInfo,
-        userInfo: state.userinfo,
+        userInfo: state.userInfo,
       };
     }
     default:
