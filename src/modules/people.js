@@ -1,25 +1,29 @@
+import axios from "axios";
 import { apis } from "../shared/api";
 
 // Actions
 const LOAD = "people/LOAD";
-// const PUSH = "people/PUSH";
+const GOOD = "people/GOOD";
+const BAD = "people/BAD";
 //action creator
 
 export function loadPeople(people_list) {
   return { type: LOAD, people_list };
 }
+export function goodPeople(people_good) {
+  return { type: GOOD, people_good };
+}
 
-// export function pushPeople(people_push) {
-//   return { type: PUSH, people_push };
-// }
+export function badPeople(people_bad) {
+  return { type: BAD, people_bad };
+}
 
-//middleware
+// middleware
 export const loadPeopleAxios = () => {
   return async function (dispatch) {
     await apis
       .load()
       .then((response) => {
-        console.log(response);
         let people = response.data;
         dispatch(loadPeople(people));
       })
@@ -29,43 +33,84 @@ export const loadPeopleAxios = () => {
   };
 };
 
+// export const goodPeopleAxios = (userId, select) => {
+//   return async function (dispatch) {
+//     await apis
+//       .selectGood(userId, select)
+//       .then((res) => {
+//         console.log(res);
+//         const data = res.data.users[0];
+//         const post = {
+//           userId: data.userId,
+//           select: data.select,
+//         };
+//         dispatch(goodPeople(post));
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+// };
+
+export const goodPeopleAxios = (selectId, select) => {
+  console.log(selectId);
+  return async function (dispatch) {
+    apis
+      .selectGood(selectId, select)
+      .then((res) => {
+        console.log("newDate:", res.data.users[0]._id);
+        let post = [
+          {
+            _id: res.data.users[0]._id,
+            userName: res.data.users[0].userName,
+            userAge: res.data.users[0].userAge,
+            imageUrl: res.data.users[0].imageUrl,
+            userIntro: res.data.users[0].userIntro,
+            workPlace: res.data.users[0].workPlace,
+            category: res.data.users[0].category,
+          },
+        ];
+        console.log(post);
+
+        dispatch(goodPeople(post));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+export const badPeopleAxios = (selectId, select) => {
+  console.log(selectId);
+  return async function (dispatch) {
+    apis
+      .selectBad(selectId, select)
+      .then((res) => {
+        console.log("newDate:", res.data.users[0]._id);
+        let post = [
+          {
+            _id: res.data.users[0]._id,
+            userName: res.data.users[0].userName,
+            userAge: res.data.users[0].userAge,
+            imageUrl: res.data.users[0].imageUrl,
+            userIntro: res.data.users[0].userIntro,
+            workPlace: res.data.users[0].workPlace,
+            category: res.data.users[0].category,
+          },
+        ];
+        console.log(post);
+
+        dispatch(badPeople(post));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
 // Initial State
 const initialState = {
-  users: [
-    // {
-    //   id: 0,
-    //   userAge: 30,
-    //   userName: "공지철",
-    //   profileImage:
-    //     "https://mblogthumb-phinf.pstatic.net/MjAxNzEyMjBfMjkz/MDAxNTEzNzMwODQ0MzY0.6uiPZ6jEGJDpoNlIh45fMz_6YOuhsqcl8DExtIti_TUg.n6kNn7k8SFZyCEOapfbZkLWKL6YortqT_5u4YXaYd70g.JPEG.ruddl1219/%EA%B3%B5%EC%9C%A0_%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B41.jpg?type=w800",
-    //   like: true,
-    //   userIntro: "저는 누구",
-    //   category: ["요리", "캠핑"],
-    //   workPlace: "항해99-6주차",
-    // },
-    // {
-    //   id: 1,
-    //   userAge: 40,
-    //   userName: "Tom",
-    //   profileImage:
-    //     "https://cdnweb01.wikitree.co.kr/webdata/editor/202008/10/img_20200810160752_a49cf79e.webp",
-    //   like: true,
-    //   userIntro: "저는 누구",
-    //   category: ["요리", "캠핑"],
-    //   workPlace: "항해99-6주차",
-    // },
-    // {
-    //   id: 2,
-    //   userAge: 40,
-    //   userName: "Tom",
-    //   profileImage:
-    //     "https://cdnweb01.wikitree.co.kr/webdata/editor/202008/10/img_20200810160752_a49cf79e.webp",
-    //   like: true,
-    //   userIntro: "저는 누구",
-    //   category: ["요리", "캠핑"],
-    //   workPlace: "항해99-6주차",
-    // },
-  ],
+  users: [],
 };
 
 //middlewares
@@ -74,10 +119,29 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "people/LOAD": {
-      return { users: action.people_list };
+      console.log("load:", action.people_list.users);
+      return { users: action.people_list.users };
+    }
+    case "people/GOOD": {
+      let new_people = [...state.users];
+      new_people[0] = new_people[1];
+      new_people.pop();
+      new_people.push(action.people_good[0]);
+      const set = new_people;
+      return { users: set };
+    }
+    case "people/BAD": {
+      let new_people = [...state.users];
+
+      new_people[0] = new_people[1];
+      new_people.pop();
+
+      new_people.push(action.people_bad[0]);
+      const set = new_people;
+      console.log("lastData:", set);
+      return { users: set };
     }
 
-    // do reducer stuff
     default:
       return state;
   }

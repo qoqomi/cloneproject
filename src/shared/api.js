@@ -54,8 +54,13 @@ chatApi.interceptors.request.use(function (config) {
 //apis body
 
 export const apis = {
-  // article
-  // add: (contents) => api.post("/api/articles", contents),
+  // people
+    selectGood: (userId, select) =>
+    api.post("/api/recommends/select", { selectId: userId, select: select }),
+
+  selectBad: (userId, select) =>
+    api.post("/api/recommends/select", { selectId: userId, select: select }),
+  
   // user
   login: (userEmail, password) =>
     api
@@ -79,4 +84,5 @@ export const apis = {
       other: other,
     }),
   getInitialChat: (roomId) => chatApi.get(`/chatlist/${roomId}`),
+
 };

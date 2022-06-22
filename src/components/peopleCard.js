@@ -31,6 +31,7 @@ const OneCard = styled.div`
   overflow: hidden;
   border-radius: 20px;
   box-shadow: 0px 18px 053px 0px rgba(0, 0, 0, 0.3);
+  animation: box-ani 1s linear forwards; /* 애니메이션 적용 */
 `;
 
 const H3 = styled.h3`
