@@ -22,18 +22,24 @@ function Login() {
       passwordRef.current.value === " "
     ) {
       alert("빈칸을 입력해주세요");
-      return false;
-    }
-    document.getElementById("LoginBtn").disabled = true;
-    try {
-      await dispatch(
-        loginAxios(usernameRef.current.value, passwordRef.current.value)
-      ).then((success) => {
-        alert("로그인이 완료되었습니다.");
-        navigate("/main");
-      });
-    } catch (err) {
-      console.log(err);
+    } else {
+        document.getElementById("LoginBtn").disabled = true;
+      try {
+        await dispatch(
+          loginAxios(usernameRef.current.value, passwordRef.current.value)
+        ).then((res) => {
+          if (res === true) {
+            alert("로그인되었습니다!");
+            navigate("/main");
+          } else {
+            document.getElementById("LoginBtn").disabled = false;
+            alert("아이디와 비밀번호를 확인해주세요!");
+          }
+        });
+      } catch (err) {
+        console.log(err);
+      }
+
     }
   };
 
