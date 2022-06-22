@@ -67,6 +67,7 @@ export const goodPeopleAxios = (selectId, select) => {
             imageUrl: res.data.users[0].imageUrl,
             userIntro: res.data.users[0].userIntro,
             workPlace: res.data.users[0].workPlace,
+            category: res.data.users[0].category,
           },
         ];
         console.log(post);
@@ -94,6 +95,7 @@ export const badPeopleAxios = (selectId, select) => {
             imageUrl: res.data.users[0].imageUrl,
             userIntro: res.data.users[0].userIntro,
             workPlace: res.data.users[0].workPlace,
+            category: res.data.users[0].category,
           },
         ];
         console.log(post);
@@ -130,10 +132,10 @@ export default function reducer(state = initialState, action = {}) {
     }
     case "people/BAD": {
       let new_people = [...state.users];
-      // console.log("처음:", new_people);
+
       new_people[0] = new_people[1];
       new_people.pop();
-      // console.log("pop:", new_people);
+
       new_people.push(action.people_bad[0]);
       const set = new_people;
       console.log("lastData:", set);
