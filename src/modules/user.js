@@ -55,12 +55,10 @@ export const signupAxios = (frm) => {
 };
 
 export const loginAxios = (userEmail, password) => {
-  console.log(userEmail, password);
   return async function (dispatch) {
     await apis
       .login(userEmail, password)
       .then((res) => {
-        console.log("들어옴:redux");
         dispatch(login(userEmail));
         console.log(login(res));
       })
@@ -86,6 +84,21 @@ export const loginAxios = (userEmail, password) => {
 //     return success;
 //   };
 // };
+
+export const checkUserValidation = () => {
+  return async function (dispatch) {
+    console.log("here");
+    await apis
+      .checkUser()
+      .then((res) => {
+        dispatch(login(res.data.userEmail));
+      })
+      .catch((err) => {
+        // localStorage.removeItem("token");
+        console.log(err);
+      });
+  };
+};
 
 // reducer
 export default function reducer(state = initialState, action = {}) {
