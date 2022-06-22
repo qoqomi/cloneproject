@@ -18,9 +18,12 @@ function MyPage() {
   const userIntro = React.useRef(null);
   const workPlace = React.useRef(null);
 
+  const reader = new FileReader();
+
   const myInfo = useSelector((state) => state.myInfo.myInfo);
 
   const [myPicUrl, setMyPicUrl] = useState("");
+  const [imageState, setImageState] = useState(null);
   const [myCategory, setMyCategory] = useState([]);
 
   React.useEffect(() => {
@@ -48,12 +51,23 @@ function MyPage() {
     }
   };
 
+  const preview = (e) => {
+    setImageState(e.target.files[0]);
+    reader.readAsDataURL(e.target.files[0]);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setMyPicUrl(reader.result);
+        resolve();
+      };
+    });
+  };
+
   const changeProfile = () => {
     console.log(userIntro.current.value, myCategory, workPlace.current.value);
     let frm = new FormData();
     frm.append("userIntro", userIntro.current.value);
     frm.append("category", JSON.stringify(myCategory));
-    frm.append("imageUrl", null);
+    frm.append("imageUrl", imageState);
     frm.append("workPlace", workPlace.current.value);
     console.log(frm);
     dispatch(modifyMyInfoAxios(frm));
@@ -71,6 +85,13 @@ function MyPage() {
       <Title>내 프로필</Title>
       <ProfileCover>
         <ProfileImg src={myPicUrl} />
+        <ChangePhotoInput
+          id="InputPhoto"
+          type="file"
+          accept="image/*"
+          onChange={preview}
+        />
+        <label htmlFor="InputPhoto">사진 변경</label>
         <BoldTitle>{myInfo.userName}</BoldTitle>
         <UserEmail>{myInfo.userEmail}</UserEmail>
       </ProfileCover>
@@ -149,7 +170,29 @@ const ProfileImg = styled.img`
   height: 250px;
   max-height: 40vw;
   justify-content: center;
-  margin: 0px auto;
+  margin: 0px auto 15px auto;
+`;
+
+const ChangePhotoInput = styled.input`
+  font-size: 18px;
+  border-radius: 50px;
+  margin-bottom: 5px;
+  border: none;
+  padding: 18px;
+  width: 20em;
+  max-width: 70%;
+  letter-spacing: 2px;
+  background-color: ${(props) => props.color};
+  color: white;
+  ::file-selector-button {
+    display: none;
+  }
+  :hover {
+    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.19);
+  }
+  background: #f7f8f8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #ff3774, #ff8146);
+  background: linear-gradient(to right, #ff3774, #ff8146);
 `;
 
 const BoldTitle = styled.p`

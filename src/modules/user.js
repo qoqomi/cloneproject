@@ -18,7 +18,6 @@ const initialState = {
   },
   userinfo: {
     userEmail: null,
-    password: null,
     is_login: false,
   },
 };
@@ -106,7 +105,6 @@ export default function reducer(state = initialState, action = {}) {
       deleteCookie("JWTToken");
       const newUserInfo = {
         userEmail: null,
-        nickname: null,
         is_login: false,
       };
       return {

@@ -18,7 +18,7 @@ function Chat() {
   const otherInfo = useSelector((state) => state.chatInfo.otherInfo);
 
   const id = useSelector((state) => state.user.userinfo.userEmail);
-  const socket = io.connect("http://sparta-swan.shop/chat", {
+  let socket = io.connect("http://sparta-swan.shop/chat", {
     path: "/socket.io",
   });
 
@@ -36,7 +36,10 @@ function Chat() {
 
   React.useEffect(() => {
     return () => {
-      socket.on("leave");
+      if (socket) {
+        socket.disconnect();
+        socket = null;
+      }
     };
   }, []);
 
