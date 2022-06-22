@@ -71,6 +71,7 @@ export const apis = {
 
   myInfo: () => api.get("/api/users/personal"),
   modifyMyInfo: (frm) => api.put("/api/users/modify", frm),
+  checkUser: () => api.get("/api/user/auth"),
 
   // chat
   loadChatList: (id) => chatApi.get(`/${id}`),

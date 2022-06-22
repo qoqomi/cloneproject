@@ -49,6 +49,7 @@ export const signupAxios = (frm) => {
       })
       .catch((err) => {
         console.log(err);
+        res = false;
       });
     return res;
   };
@@ -71,18 +72,53 @@ export const signupAxios = (frm) => {
 // };
 
 export const loginAxios = (userEmail, password) => {
-  console.log(userEmail, password);
   return async function (dispatch) {
+    let res = null;
     await apis
       .login(userEmail, password)
-      .then((user) => {
-        console.log(user);
-        localStorage.setItem("token", user.data.token);
+
+      .then((res) => {
         dispatch(login(userEmail));
+        console.log(login(res));
+        res = true;
       })
       .catch((err) => {
         console.log("로그인에러:", err.message);
 
+        console.log(err);
+        res = false;
+      });
+    return res;
+  };
+};
+
+// export const loginAxios = (userEmail, password) => {
+//   return async function (dispatch) {
+//     let success = null;
+//     await apis
+//       .login(userEmail, password)
+//       .then((res) => {
+//         dispatch(login(res));
+//         success = true;
+//       })
+//       .catch((err) => {
+//         success = false;
+//         alert("아이디와 패스워드를 확인해주세요!");
+//       });
+//     return success;
+//   };
+// };
+
+export const checkUserValidation = () => {
+  return async function (dispatch) {
+    console.log("here");
+    await apis
+      .checkUser()
+      .then((res) => {
+        dispatch(login(res.data.userEmail));
+      })
+      .catch((err) => {
+        // localStorage.removeItem("token");
         console.log(err);
       });
   };
