@@ -57,19 +57,20 @@ export const signupAxios = (frm) => {
 
 export const loginAxios = (userEmail, password) => {
   return async function (dispatch) {
-    let res = null;
+    let success = null;
     await apis
       .login(userEmail, password)
       .then((res) => {
+        localStorage.setItem("token", res.data.token);
         dispatch(login(userEmail));
         console.log(login(res));
-        res = true;
+        success = true;
       })
       .catch((err) => {
+        success = false;
         console.log(err);
-        res = false;
       });
-    return res;
+    return success;
   };
 };
 
