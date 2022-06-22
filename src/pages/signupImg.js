@@ -88,68 +88,65 @@ function SignupImg() {
   return (
     <LoginTemplate>
       <Form>
-        <Div>
-          {filesImg ? (
-            <ShowImg alt="sample" id="showImg" src={filesImg} />
-          ) : (
-            <NoShowImg
-              alt="sample"
-              id="showImg"
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAMAAABX0UX9AAAAA1BMVEXi4uIvUCsuAAAASElEQVR4nO3BMQEAAADCoPVPbQ0PoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABODcYhAAEl463hAAAAAElFTkSuQmCC"
+        {filesImg ? (
+          <ShowImg alt="sample" id="showImg" src={filesImg} />
+        ) : (
+          <NoShowImg
+            alt="sample"
+            id="showImg"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAT4AAACfCAMAAABX0UX9AAAAA1BMVEXi4uIvUCsuAAAASElEQVR4nO3BMQEAAADCoPVPbQ0PoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABODcYhAAEl463hAAAAAElFTkSuQmCC"
+          />
+        )}
+
+        {filesImg ? (
+          <Label>
+            <FontAwesomeIcon
+              icon={faArrowRotateLeft}
+              size="2x"
+              style={{ color: "white" }}
             />
-          )}
+            <input
+              name="imgUpload"
+              type="file"
+              id="add_img"
+              accept="image/*"
+              onChange={onChange}
+              style={{
+                position: "absolute",
+                width: 0,
+                height: 0,
+                padding: 0,
+                overflow: "hidden",
+                border: 0,
+                backgroundColor: "green",
+              }}
+            />
+          </Label>
+        ) : (
+          <Label>
+            <FontAwesomeIcon
+              icon={faPlus}
+              size="2x"
+              style={{ color: "white" }}
+            />
 
-          {filesImg ? (
-            <Label>
-              <FontAwesomeIcon
-                icon={faArrowRotateLeft}
-                size="2x"
-                style={{ color: "white" }}
-              />
-              <input
-                name="imgUpload"
-                type="file"
-                id="add_img"
-                accept="image/*"
-                onChange={onChange}
-                style={{
-                  position: "absolute",
-                  width: 0,
-                  height: 0,
-                  padding: 0,
-                  overflow: "hidden",
-                  border: 0,
-                  backgroundColor: "green",
-                }}
-              />
-            </Label>
-          ) : (
-            <Label>
-              <FontAwesomeIcon
-                icon={faPlus}
-                size="2x"
-                style={{ color: "white" }}
-              />
-
-              <input
-                name="imgUpload"
-                type="file"
-                id="add_img"
-                accept="image/*"
-                onChange={onChange}
-                style={{
-                  position: "absolute",
-                  width: 0,
-                  height: 0,
-                  padding: 0,
-                  overflow: "hidden",
-                  border: 0,
-                  backgroundColor: "green",
-                }}
-              />
-            </Label>
-          )}
-        </Div>
+            <input
+              name="imgUpload"
+              type="file"
+              id="add_img"
+              accept="image/*"
+              onChange={onChange}
+              style={{
+                width: 0,
+                height: 0,
+                padding: 0,
+                overflow: "hidden",
+                border: 0,
+                backgroundColor: "green",
+              }}
+            />
+          </Label>
+        )}
 
         <Button color="#fccb4f" id="SignUpBtn" onClick={signuptotalOnClick}>
           Next
@@ -164,10 +161,6 @@ const Form = styled.div`
   justify-content: center;
   align-items: center;
   padding: 50px;
-`;
-const Div = styled.div`
-  display: flex;
-  justify-content: center;
 `;
 
 const ShowImg = styled.img`
@@ -205,20 +198,20 @@ const Label = styled.label`
   height: 40px;
   background-color: pink;
   border-radius: 50%;
-  position: absolute;
-  bottom: 190px;
   display: flex;
   justify-content: center;
   align-items: center;
   background: #f7f8f8; /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #ff3774, #ff8146);
   background: linear-gradient(to right, #ff3774, #ff8146);
+  position: fixed;
+  top: calc(90% / 1.4);
 `;
 
 const Button = styled.button`
   font-size: 18px;
   border-radius: 50px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border: none;
   padding: 18px;
   width: 20em;

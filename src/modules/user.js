@@ -131,6 +131,4 @@ export default function reducer(state = initialState, action = {}) {
     default:
       return state;
   }
-
-  // do reducer stuff
 }
