@@ -75,7 +75,7 @@ function Chat() {
       });
   };
 
-  const onKeyPress = (e) => {
+  const onKeyPressChat = (e) => {
     if (e.key === "Enter") {
       sendMessage();
     }
@@ -133,7 +133,7 @@ function Chat() {
         <MessageInput
           id="messageInput"
           ref={inputCurrent}
-          onKeyPress={onKeyPress}
+          onKeyPress={onKeyPressChat}
         />
         <MessageBtn
           inputValue={inputCurrent === "" ? false : true}
