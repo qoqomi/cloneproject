@@ -99,7 +99,9 @@ function SignUp() {
     navigate("/signupImg");
   };
 
-  const onKeyPress = (e) => {
+
+  const onKeyPressSingup = (e) => {
+
     if (e.key === "Enter") {
       signupOnClick();
     }
@@ -116,7 +118,7 @@ function SignUp() {
             value={userEmail}
             onChange={onChangeEmail}
             maxLength={20}
-            onKeyPress={onKeyPress}
+            onKeyPress={onKeyPressSingup}
           />
           {emailError && <ValiDiv>이메일 형식에 맞지 않습니다.</ValiDiv>}
         </Div>
@@ -129,7 +131,7 @@ function SignUp() {
             value={password}
             onChange={onChangePassword}
             maxLength={20}
-            onKeyPress={onKeyPress}
+            onKeyPress={onKeyPressSingup}
           />
           {passwordError && (
             <ValiDiv>
@@ -147,7 +149,7 @@ function SignUp() {
             value={passwordCheck}
             onChange={onChangeConfirmPassword}
             maxLength={20}
-            onKeyPress={onKeyPress}
+            onKeyPress={onKeyPressSingup}
           />
           {confirmPasswordError && <ValiDiv>비밀번호를 확인해주세요.</ValiDiv>}
         </Div>
@@ -160,7 +162,7 @@ function SignUp() {
             value={userName}
             onChange={onChangeUserName}
             maxLength={5}
-            onKeyPress={onKeyPress}
+            onKeyPress={onKeyPressSingup}
           />
           {userNameError && <ValiDiv>이름을 입력해주세요</ValiDiv>}
         </Div>
@@ -173,7 +175,7 @@ function SignUp() {
             value={userAge}
             onChange={onChangeAge}
             maxLength={2}
-            onKeyPress={onKeyPress}
+            onKeyPress={onKeyPressSingup}
           />
           {userAgeError && <ValiDiv>숫자만 입력해주세요.</ValiDiv>}
         </Div>
@@ -245,20 +247,22 @@ const LOG = styled.input`
     }
   }
 `;
+
 const ValiDiv = styled.div`
   color: red;
   margin-top: 5px;
 `;
+
 const ButtomDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 80%;
 `;
+
 const Button = styled.button`
   font-size: 18px;
   border-radius: 50px;
   margin-bottom: 15px;
-
   border: none;
   padding: 18px;
   letter-spacing: 2px;
@@ -271,6 +275,7 @@ const Button = styled.button`
   background: -webkit-linear-gradient(to right, #ff3774, #ff8146);
   background: linear-gradient(to right, #ff3774, #ff8146);
 `;
+
 const Next = styled.button`
   font-size: 18px;
   border-radius: 50px;
