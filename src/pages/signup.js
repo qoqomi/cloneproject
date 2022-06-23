@@ -29,7 +29,6 @@ function SignUp() {
       setEmailError(false);
     else setEmailError(true);
     setUserEmail(e.target.value);
-    console.log(userEmail);
   };
 
   const onChangePassword = (e) => {
@@ -99,9 +98,7 @@ function SignUp() {
     navigate("/signupImg");
   };
 
-
   const onKeyPressSingup = (e) => {
-
     if (e.key === "Enter") {
       signupOnClick();
     }

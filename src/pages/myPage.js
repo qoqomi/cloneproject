@@ -26,12 +26,10 @@ function MyPage() {
 
   React.useEffect(() => {
     if (isLogin === null) {
-      console.log("null");
       dispatch(checkUserValidation());
       return;
     }
     if (!isLogin) {
-      console.log("false");
       navigate("/");
     }
   }, [isLogin]);
@@ -75,13 +73,11 @@ function MyPage() {
   };
 
   const changeProfile = () => {
-    console.log(userIntro.current.value, myCategory, workPlace.current.value);
     let frm = new FormData();
     frm.append("userIntro", userIntro.current.value);
     frm.append("category", JSON.stringify(myCategory));
     frm.append("imageUrl", imageState);
     frm.append("workPlace", workPlace.current.value);
-    console.log(frm);
     dispatch(modifyMyInfoAxios(frm)).then(() => {
       alert("변경되었습니다!");
       navigate("/main");

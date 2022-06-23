@@ -14,7 +14,6 @@ function Chat() {
   const inputCurrent = React.useRef(null);
   const location = useLocation();
   const params = useParams();
-  console.log(params.roomId);
 
   const otherInfo = useSelector((state) => state.chatInfo.otherInfo);
   const isLogin = useSelector((state) => state.user.userInfo.is_login);
@@ -22,12 +21,10 @@ function Chat() {
 
   React.useEffect(() => {
     if (isLogin === null) {
-      console.log("null");
       dispatch(checkUserValidation());
       return;
     }
     if (!isLogin) {
-      console.log("false");
       navigate("/");
     }
   }, [isLogin]);

@@ -70,7 +70,6 @@ export const badPeopleAxios = (selectId, select) => {
     apis
       .selectBad(selectId, select)
       .then((res) => {
-        console.log("newDate:", res.data.users[0]._id);
         let post = [
           {
             _id: res.data.users[0]._id,
@@ -82,15 +81,12 @@ export const badPeopleAxios = (selectId, select) => {
             category: res.data.users[0].category,
           },
         ];
-        console.log(post);
-
         dispatch(badPeople(post));
       })
       .catch((err) => {
         if (err.response.status === 402) {
           dispatch(loadPeopleAxios());
         } else {
-          console.log(err);
         }
       });
   };
@@ -107,7 +103,6 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "people/LOAD": {
-      console.log("load:", action.people_list.users);
       return { users: action.people_list.users };
     }
     case "people/GOOD": {
@@ -126,7 +121,6 @@ export default function reducer(state = initialState, action = {}) {
 
       new_people.push(action.people_bad[0]);
       const set = new_people;
-      console.log("lastData:", set);
       return { users: set };
     }
 
