@@ -52,9 +52,8 @@ function Login() {
   };
 
   const onKeyPressLigin = (e) => {
-    if (e.key == "loginFB") {
+    if (e.key === "Enter") {
       loginFB();
-
     }
   };
 

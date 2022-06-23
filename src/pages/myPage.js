@@ -7,7 +7,7 @@ import {
   cleanMyInfo,
   modifyMyInfoAxios,
 } from "../modules/myInfo";
-import { checkUserValidation } from "../modules/user";
+import { checkUserValidation, logOut } from "../modules/user";
 import { useNavigate } from "react-router-dom";
 import { apis } from "../shared/api";
 import { categories } from "../shared/category";
@@ -111,9 +111,10 @@ function MyPage() {
         <UserEmail>{myInfo.userEmail}</UserEmail>
       </ProfileCover>
       <LogoutBtn
-        onClick={() => {
-          localStorage.removeItem("token");
-          navigate("/");
+        onClick={async () => {
+          await dispatch(logOut()).then(() => {
+            navigate("/");
+          });
         }}
       >
         로그아웃

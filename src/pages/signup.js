@@ -99,7 +99,9 @@ function SignUp() {
     navigate("/signupImg");
   };
 
+
   const onKeyPressSingup = (e) => {
+
     if (e.key === "Enter") {
       signupOnClick();
     }
