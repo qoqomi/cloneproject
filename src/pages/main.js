@@ -19,19 +19,15 @@ function Main() {
   const dispatch = useDispatch();
   const person = useSelector((state) => state.people.users);
   const navigate = useNavigate();
-  const personId = person.length > 0 ? person[0]._id : "";
-  const personImage = person.length > 0 ? person[0].imageUrl : "";
 
   const isLogin = useSelector((state) => state.user.userInfo.is_login);
 
   React.useEffect(() => {
     if (isLogin === null) {
-      console.log("null");
       dispatch(checkUserValidation());
       return;
     }
     if (!isLogin) {
-      console.log("false");
       navigate("/");
     }
   }, [isLogin]);
@@ -62,7 +58,9 @@ function Main() {
           <OneCard
             id="oneCard"
             style={{
-              backgroundImage: `url(${person.length > 0 ? personImage : ""})`,
+              backgroundImage: `url(${
+                person.length > 0 ? person[0].imageUrl : ""
+              })`,
             }}
           >
             <FontDiv>
@@ -75,7 +73,7 @@ function Main() {
           <ButtomOne
             id="bad"
             onClick={() => {
-              onClickBad(personId, false);
+              onClickBad(person[0]._id, false);
             }}
           >
             <FontAwesomeIcon
@@ -101,7 +99,7 @@ function Main() {
           <ButtomTwo
             id="like"
             onClick={async () => {
-              onClickLike(personId, true);
+              onClickLike(person[0]._id, true);
             }}
           >
             <FontAwesomeIcon
