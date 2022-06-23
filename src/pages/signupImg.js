@@ -205,7 +205,7 @@ const Label = styled.label`
   background: -webkit-linear-gradient(to right, #ff3774, #ff8146);
   background: linear-gradient(to right, #ff3774, #ff8146);
   position: fixed;
-  top: calc(90% / 1.4);
+  top: calc(90% / 1.7 + 50px);
 `;
 
 const Button = styled.button`
