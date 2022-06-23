@@ -58,6 +58,11 @@ function Chat() {
     };
   }, []);
 
+  React.useEffect(() => {
+    document.getElementById("chatArea").scrollTop =
+      document.getElementById("chatArea").scrollHeight;
+  }, [chatlist]);
+
   const chatlist = useSelector((state) => state.chatInfo.chat);
 
   const sendMessage = () => {
@@ -100,7 +105,7 @@ function Chat() {
         </ProfileCover>
         <HeaderLine />
       </ChatHeader>
-      <ChatArea>
+      <ChatArea id="chatArea">
         {chatlist.map((v, i) => {
           return v.userEmail === id ? (
             <ChatCoverMe key={"chat" + i}>

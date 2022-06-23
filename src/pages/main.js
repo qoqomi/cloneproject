@@ -33,21 +33,37 @@ function Main() {
   }, [isLogin]);
 
   const [view, setView] = useState(true);
+  const [lastPersonLike, setLastPersonLike] = useState(false);
 
   useEffect(() => {
     dispatch(loadPeopleAxios());
   }, []);
   const [modal, setModal] = useState(false);
 
-  const onClickLike = (userId, likedOrNot) => {
-    dispatch(goodPeopleAxios(userId, likedOrNot));
+  const onClickLike = async (userId, likedOrNot) => {
+    document.getElementById("like").disable = true;
+    if (person[1] === undefined || person[1]._id === 404) {
+      alert("더 이상 보여줄 사람이 없습니다!");
+      document.getElementById("like").disable = false;
+      return;
+    }
+    await dispatch(goodPeopleAxios(userId, likedOrNot)).then(() => {
+      document.getElementById("like").disable = false;
+    });
   };
 
-  const onClickBad = (userId, likedOrNot) => {
-    console.log(view);
-
-    dispatch(badPeopleAxios(userId, likedOrNot));
+  const onClickBad = async (userId, likedOrNot) => {
+    document.getElementById("like").disable = true;
+    if (person[1] === undefined || person[1]._id === "404") {
+      alert("더 이상 보여줄 사람이 없습니다!");
+      document.getElementById("like").disable = false;
+      return;
+    }
+    await dispatch(badPeopleAxios(userId, likedOrNot)).then(() => {
+      document.getElementById("like").disable = false;
+    });
   };
+
   return (
     person &&
     (modal === true ? (
@@ -62,11 +78,16 @@ function Main() {
                 person.length > 0 ? person[0].imageUrl : ""
               })`,
             }}
+            noMore={person.length > 0 ? person[0]._id === "404" : false}
           >
-            <FontDiv>
-              <H3>{person.length > 0 ? person[0].userName : ""}</H3>
-              <H4>{person.length > 0 ? person[0].userAge : ""}</H4>
-            </FontDiv>
+            <NameCover>
+              <H3 noMore={person.length > 0 ? person[0]._id === "404" : false}>
+                {person.length > 0 ? person[0].userName : ""}
+              </H3>
+              <H4 noMore={person.length > 0 ? person[0]._id === "404" : false}>
+                {person.length > 0 ? person[0].userAge : ""}
+              </H4>
+            </NameCover>
           </OneCard>
         </Div>
         <ButtonDiv>
@@ -84,7 +105,7 @@ function Main() {
           </ButtomOne>
 
           <ButtomMypage
-            id="like"
+            id="mypage"
             onClick={() => {
               setModal(true);
             }}
@@ -135,39 +156,29 @@ const OneCard = styled.div`
   top: 0;
   right: 0;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: ${(props) => (props.noMore ? "" : "cover")};
   background-position: center;
 `;
 
-const FontDiv = styled.div`
-  text-align: center;
-  background-color: green;
-`;
-const H3 = styled.span`
+const NameCover = styled.div`
   position: absolute;
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-  top: 95%;
-  left: 10%;
-  transform: translate(-50%, -50%);
-  @media screen and (max-width: 350px) {
-    top: 95%;
-    left: 30%;
-  }
+  left: 20px;
+  margin-top: 600px;
+  bottom: 20px;
+  display: flex;
 `;
-const H4 = styled.span`
-  position: absolute;
-  font-size: 20px;
-  color: white;
-  top: 95%;
-  left: 22%;
-  transform: translate(-50%, -50%);
 
-  @media screen and (max-width: 350px) {
-    top: 95%;
-    left: 55%;
-  }
+const H3 = styled.h3`
+  font-size: 24px;
+  font-weight: ${(props) => (props.noMore ? "" : "bold")};
+  color: ${(props) => (props.noMore ? "black" : "white")};
+  text-shadow: 1px 1px 1px #000;
+`;
+const H4 = styled.h4`
+  font-size: 25px;
+  color: ${(props) => (props.noMore ? "black" : "white")};
+  text-shadow: 1px 1px 1px #000;
+  margin-left: 15px;
 `;
 const ButtonDiv = styled.div`
   display: flex;
