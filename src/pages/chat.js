@@ -40,9 +40,8 @@ function Chat() {
   React.useEffect(() => {
     socket.emit("newRoomId", params.roomId);
     dispatch(initialChatAxios(params.roomId));
-    document
-      .getElementById("chatArea")
-      .scrollTo(0, document.getElementById("chatArea").scrollHeight);
+    const chatArea = document.getElementById("chatArea");
+    chatArea.scrollTop = chatArea.scrollHeight;
   }, []);
 
   React.useEffect(() => {
@@ -62,9 +61,8 @@ function Chat() {
   }, []);
 
   React.useEffect(() => {
-    document
-      .getElementById("chatArea")
-      .scrollTo(0, document.getElementById("chatArea").scrollHeight);
+    const chatArea = document.getElementById("chatArea");
+    chatArea.scrollTop = chatArea.scrollHeight;
   }, [chatlist]);
 
   const sendMessage = () => {
