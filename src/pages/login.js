@@ -44,7 +44,7 @@ function Login() {
     }
   };
 
-  const onKeyPress = (e) => {
+  const onKeyPressLigin = (e) => {
     if (e.key == "loginFB") {
       loginFB();
     }
@@ -58,7 +58,7 @@ function Login() {
           name="email"
           type="email"
           placeholder="Email"
-          onKeyPress={onKeyPress}
+          onKeyPress={onKeyPressLigin}
           ref={usernameRef}
         />
         <LOG
@@ -66,7 +66,7 @@ function Login() {
           name="password"
           type="password"
           placeholder="Password"
-          onKeyPress={onKeyPress}
+          onKeyPress={onKeyPressLigin}
           ref={passwordRef}
         />
         <ButtomDiv>
