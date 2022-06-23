@@ -111,9 +111,10 @@ function MyPage() {
         <UserEmail>{myInfo.userEmail}</UserEmail>
       </ProfileCover>
       <LogoutBtn
-        onClick={() => {
-          dispatch(logOut());
-          navigate("/");
+        onClick={async () => {
+          await dispatch(logOut()).then(() => {
+            navigate("/");
+          });
         }}
       >
         로그아웃
