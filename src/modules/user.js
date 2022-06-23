@@ -16,10 +16,9 @@ const initialState = {
     userAge: null,
     imageUrl: null,
   },
-  userinfo: {
+  userInfo: {
     userEmail: null,
-    password: null,
-    is_login: false,
+    is_login: null,
   },
 };
 
@@ -34,7 +33,6 @@ export function userInfo(info) {
   return { type: USERINFO, info };
 }
 export function userInfototal(infototal) {
-  console.log(infototal);
   return { type: USERINFOTOTAL, infototal };
 }
 
@@ -50,6 +48,7 @@ export const signupAxios = (frm) => {
       })
       .catch((err) => {
         console.log(err);
+        res = false;
       });
     return res;
   };
@@ -57,19 +56,33 @@ export const signupAxios = (frm) => {
 
 export const loginAxios = (userEmail, password) => {
   return async function (dispatch) {
-    //redux
-    console.log("들어옴");
-    let work = null;
+    let success = null;
     await apis
       .login(userEmail, password)
+
       .then((res) => {
-        dispatch(login(res));
-        console.log(login(res));
-        work = true;
+        localStorage.setItem("token", res.data.token);
+        dispatch(login(userEmail));
+        success = true;
       })
       .catch((err) => {
+        success = false;
         console.log(err);
-        work = false;
+      });
+    return success;
+  };
+};
+
+export const checkUserValidation = () => {
+  return async function (dispatch) {
+    await apis
+      .checkUser()
+      .then((res) => {
+        dispatch(login(res.data.user.userEmail));
+      })
+      .catch((err) => {
+        dispatch(logOut());
+        console.log(err);
       });
   };
 };
@@ -79,43 +92,40 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "user/LOGIN": {
       const newUserInfo = {
-        username: action.id,
+        userEmail: action.id,
         is_login: true,
       };
       return {
         signup: state.info,
-        userinfo: newUserInfo,
+        userInfo: newUserInfo,
       };
     }
     case "user/LOGOUT": {
-      deleteCookie("JWTToken");
+      localStorage.removeItem("token");
       const newUserInfo = {
-        username: null,
-        nickname: null,
+        userEmail: null,
         is_login: false,
       };
       return {
         signup: state.info,
-        userinfo: newUserInfo,
+        userInfo: newUserInfo,
       };
     }
     case "user/USERINFO": {
       const newUserInfo = action.info;
       return {
         signup: newUserInfo,
-        userInfo: state.userinfo,
+        userInfo: state.userInfo,
       };
     }
     case "user/USERINFOTOTAL": {
       const newUserInfo = action.infototal;
       return {
         signup: newUserInfo,
-        userInfo: state.userinfo,
+        userInfo: state.userInfo,
       };
     }
     default:
       return state;
   }
-
-  // do reducer stuff
 }

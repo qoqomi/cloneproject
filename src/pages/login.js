@@ -3,45 +3,58 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
+
 import { loginAxios } from "../modules/user";
+import { useSelector } from "react-redux";
+
 function Login() {
+  const person = useSelector((state) => state.people.persons);
+  const isLogin = useSelector((state) => state.user.userInfo.is_login);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [userEmail, setUserId] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const usernameRef = React.useRef(null);
+  const passwordRef = React.useRef(null);
 
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    if (name === "email") {
-      setUserId(value);
-    } else if (name === "password") {
-      setPassword(value);
+  React.useEffect(() => {
+    if (isLogin) {
+      navigate("/main");
     }
-  };
+  }, [isLogin]);
 
   const loginFB = async () => {
     if (
-      (userEmail == "" && password == "") ||
-      password == "" ||
-      userEmail == ""
+      usernameRef.current.value === "" ||
+      passwordRef.current.value === "" ||
+      usernameRef.current.value === " " ||
+      passwordRef.current.value === " "
     ) {
-      alert("모두 입력해주세요");
-      return false;
+      alert("빈칸을 입력해주세요");
     } else {
+      document.getElementById("LoginBtn").disabled = true;
       try {
         await dispatch(
-          loginAxios(userEmail, password).then((work) => {
-            console.log(work);
-          })
-        );
+          loginAxios(usernameRef.current.value, passwordRef.current.value)
+        ).then((res) => {
+          if (res === true) {
+            alert("로그인되었습니다!");
+            navigate("/main");
+          } else {
+            document.getElementById("LoginBtn").disabled = false;
+            alert("아이디와 비밀번호를 확인해주세요!");
+          }
+        });
       } catch (err) {
         console.log(err);
       }
-
-      //await
     }
   };
+
+  // const onKeyPressLigin = (e) => {
+  //   if (e.key == "loginFB") {
+  //     loginFB();
+  //   }
+  // };
 
   return (
     <LoginTemplate>
@@ -51,35 +64,36 @@ function Login() {
           name="email"
           type="email"
           placeholder="Email"
-          value={userEmail}
-          onChange={onChange}
+          ref={usernameRef}
         />
         <LOG
           required
           name="password"
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={onChange}
+          ref={passwordRef}
         />
+        <ButtomDiv>
+          <Button id="LoginBtn" onClick={loginFB}>
+            Login
+          </Button>
 
-        <Button onClick={loginFB}>Login</Button>
-
-        <Next
-          onClick={() => {
-            navigate("/signup");
-          }}
-        >
-          Sign Up
-        </Next>
+          <Next
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            Sign Up
+          </Next>
+        </ButtomDiv>
       </Form>
     </LoginTemplate>
   );
 }
 const Form = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 `;
 
 const LOG = styled.input`
@@ -89,7 +103,7 @@ const LOG = styled.input`
   margin-bottom: 25px;
   font-size: 18px;
   outline: 0;
-  width: 20em;
+  width: 75%;
 
   input.placeholder {
     text-align: center;
@@ -120,6 +134,13 @@ const LOG = styled.input`
     }
   }
 `;
+
+const ButtomDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+`;
+
 const Button = styled.button`
   font-size: 18px;
   border-radius: 50px;
@@ -127,7 +148,7 @@ const Button = styled.button`
 
   border: none;
   padding: 18px;
-  width: 20em;
+
   letter-spacing: 2px;
   background-color: ${(props) => props.color};
   color: white;
@@ -145,7 +166,7 @@ const Next = styled.button`
 
   border: 1px solid black;
   padding: 18px;
-  width: 20em;
+
   letter-spacing: 2px;
   background-color: transparent;
   color: black;
