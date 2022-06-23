@@ -65,10 +65,10 @@ function Main() {
               backgroundImage: `url(${person.length > 0 ? personImage : ""})`,
             }}
           >
-            <div>
+            <FontDiv>
               <H3>{person.length > 0 ? person[0].userName : ""}</H3>
               <H4>{person.length > 0 ? person[0].userAge : ""}</H4>
-            </div>
+            </FontDiv>
           </OneCard>
         </Div>
         <ButtonDiv>
@@ -141,21 +141,35 @@ const OneCard = styled.div`
   background-position: center;
 `;
 
-const H3 = styled.h3`
+const FontDiv = styled.div`
+  text-align: center;
+  background-color: green;
+`;
+const H3 = styled.span`
   position: absolute;
   font-size: 24px;
   font-weight: bold;
-  left: 20px;
-  margin-top: 600px;
-  bottom: 20px;
   color: white;
+  top: 95%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  @media screen and (max-width: 350px) {
+    top: 95%;
+    left: 30%;
+  }
 `;
-const H4 = styled.h4`
+const H4 = styled.span`
   position: absolute;
   font-size: 20px;
   color: white;
-  margin-top: 600px;
-  margin-left: 30px;
+  top: 95%;
+  left: 22%;
+  transform: translate(-50%, -50%);
+
+  @media screen and (max-width: 350px) {
+    top: 95%;
+    left: 55%;
+  }
 `;
 const ButtonDiv = styled.div`
   display: flex;

@@ -29,7 +29,6 @@ function SignUp() {
       setEmailError(false);
     else setEmailError(true);
     setUserEmail(e.target.value);
-    console.log(userEmail);
   };
 
   const onChangePassword = (e) => {
@@ -98,12 +97,11 @@ function SignUp() {
     );
     navigate("/signupImg");
   };
-
-  const onKeyPressSingup = (e) => {
-    if (e.key === "Enter") {
-      signupOnClick();
-    }
-  };
+  // const onCheckEnter = (e) => {
+  //   if (e.key === "Enter") {
+  //     signupOnClick();
+  //   }
+  // };
   return (
     <LoginTemplate>
       <Form>
@@ -116,7 +114,6 @@ function SignUp() {
             value={userEmail}
             onChange={onChangeEmail}
             maxLength={20}
-            onKeyPress={onKeyPressSingup}
           />
           {emailError && <ValiDiv>이메일 형식에 맞지 않습니다.</ValiDiv>}
         </Div>
@@ -129,7 +126,6 @@ function SignUp() {
             value={password}
             onChange={onChangePassword}
             maxLength={20}
-            onKeyPress={onKeyPressSingup}
           />
           {passwordError && (
             <ValiDiv>
@@ -147,7 +143,6 @@ function SignUp() {
             value={passwordCheck}
             onChange={onChangeConfirmPassword}
             maxLength={20}
-            onKeyPress={onKeyPressSingup}
           />
           {confirmPasswordError && <ValiDiv>비밀번호를 확인해주세요.</ValiDiv>}
         </Div>
@@ -160,7 +155,6 @@ function SignUp() {
             value={userName}
             onChange={onChangeUserName}
             maxLength={5}
-            onKeyPress={onKeyPressSingup}
           />
           {userNameError && <ValiDiv>이름을 입력해주세요</ValiDiv>}
         </Div>
@@ -173,7 +167,6 @@ function SignUp() {
             value={userAge}
             onChange={onChangeAge}
             maxLength={2}
-            onKeyPress={onKeyPressSingup}
           />
           {userAgeError && <ValiDiv>숫자만 입력해주세요.</ValiDiv>}
         </Div>
@@ -195,7 +188,7 @@ function SignUp() {
     </LoginTemplate>
   );
 }
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
