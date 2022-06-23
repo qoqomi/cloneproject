@@ -216,14 +216,14 @@ const Button = styled.button`
   padding: 18px;
   width: 20em;
   letter-spacing: 2px;
-  background-color: ${(props) => props.color};
-  color: white;
+  background-color: none;
+  color: green;
   :hover {
     box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.19);
   }
-  background: #f7f8f8; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #ff3774, #ff8146);
-  background: linear-gradient(to right, #ff3774, #ff8146);
+  /* background: #f7f8f8; /* fallback for old browsers */
+  /* background: -webkit-linear-gradient(to right, #ff3774, #ff8146);
+  background: linear-gradient(to right, #ff3774, #ff8146);  */
 `;
 
 export default SignupImg;
