@@ -21,7 +21,7 @@ function SignUp() {
   const [userNameError, setUserNameError] = useState(false);
   const [userAgeError, setuserAgeError] = useState(false);
 
-  // 유효성검사 추가중
+  // 유효성검사
   const onChangeEmail = (e) => {
     const emailRegex =
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
@@ -30,7 +30,7 @@ function SignUp() {
     else setEmailError(true);
     setUserEmail(e.target.value);
   };
-
+  // 유효성검사
   const onChangePassword = (e) => {
     const passwordRegex =
       /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
@@ -43,18 +43,18 @@ function SignUp() {
     else setConfirmPasswordError(true);
     setPassword(e.target.value);
   };
-
+  // 유효성검사
   const onChangeConfirmPassword = (e) => {
     if (password === e.target.value) setConfirmPasswordError(false);
     else setConfirmPasswordError(true);
     setPasswordCheck(e.target.value);
   };
-
+  // 유효성검사
   const onChangeUserName = (e) => {
     setUserNameError(false);
     setUserName(e.target.value);
   };
-
+  // 유효성검사
   const onChangeAge = (e) => {
     const emailRegex = /^[0-9]*$/;
     if (!e.target.value || emailRegex.test(e.target.value))
