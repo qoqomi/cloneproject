@@ -19,8 +19,6 @@ function Main() {
   const dispatch = useDispatch();
   const person = useSelector((state) => state.people.users);
   const navigate = useNavigate();
-  const personId = person.length > 0 ? person[0]._id : "";
-  const personImage = person.length > 0 ? person[0].imageUrl : "";
 
   const isLogin = useSelector((state) => state.user.userInfo.is_login);
 
@@ -60,7 +58,9 @@ function Main() {
           <OneCard
             id="oneCard"
             style={{
-              backgroundImage: `url(${person.length > 0 ? personImage : ""})`,
+              backgroundImage: `url(${
+                person.length > 0 ? person[0].imageUrl : ""
+              })`,
             }}
           >
             <NameCover>
@@ -73,7 +73,7 @@ function Main() {
           <ButtomOne
             id="bad"
             onClick={() => {
-              onClickBad(personId, false);
+              onClickBad(person[0]._id, false);
             }}
           >
             <FontAwesomeIcon
@@ -99,7 +99,7 @@ function Main() {
           <ButtomTwo
             id="like"
             onClick={async () => {
-              onClickLike(personId, true);
+              onClickLike(person[0]._id, true);
             }}
           >
             <FontAwesomeIcon
