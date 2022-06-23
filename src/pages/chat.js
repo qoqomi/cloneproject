@@ -14,19 +14,17 @@ function Chat() {
   const inputCurrent = React.useRef(null);
   const location = useLocation();
   const params = useParams();
-  console.log(params.roomId);
 
   const otherInfo = useSelector((state) => state.chatInfo.otherInfo);
   const isLogin = useSelector((state) => state.user.userInfo.is_login);
+  const chatlist = useSelector((state) => state.chatInfo.chat);
 
   React.useEffect(() => {
     if (isLogin === null) {
-      console.log("null");
       dispatch(checkUserValidation());
       return;
     }
     if (!isLogin) {
-      console.log("false");
       navigate("/");
     }
   }, [isLogin]);
@@ -39,7 +37,8 @@ function Chat() {
   React.useEffect(() => {
     socket.emit("newRoomId", params.roomId);
     dispatch(initialChatAxios(params.roomId));
-    // socket.on("join", params.roomId);
+    const chatArea = document.getElementById("chatArea");
+    chatArea.scrollTop = chatArea.scrollHeight;
   }, []);
 
   React.useEffect(() => {
@@ -59,11 +58,9 @@ function Chat() {
   }, []);
 
   React.useEffect(() => {
-    document.getElementById("chatArea").scrollTop =
-      document.getElementById("chatArea").scrollHeight;
+    const chatArea = document.getElementById("chatArea");
+    chatArea.scrollTop = chatArea.scrollHeight;
   }, [chatlist]);
-
-  const chatlist = useSelector((state) => state.chatInfo.chat);
 
   const sendMessage = () => {
     if (inputCurrent.current.value === "" || null) {

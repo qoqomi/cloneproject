@@ -53,7 +53,6 @@ function SignupImg() {
     try {
       await dispatch(signupAxios(frm)).then((res) => {
         if (res === true) {
-          console.log(res);
           navigate("/login");
           alert("회원가입되었습니다!");
         } else {

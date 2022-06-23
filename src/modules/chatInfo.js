@@ -65,7 +65,6 @@ export const getRoomIdAxios = (id, other) => {
     await apis
       .getRoomId(id, other)
       .then((res) => {
-        console.log(res.data);
         dispatch(roomId(res.data.newRoom2));
         dispatch(otherInfo(res.data.otherInfo2));
         myRoomId = res.data.newRoom2;
@@ -118,7 +117,6 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
     case "chatInfo/CHATSOCKET": {
-      console.log(action.data);
       return {
         list: state.list,
         chat: [...state.chat, action.data],

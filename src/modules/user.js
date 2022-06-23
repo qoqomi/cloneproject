@@ -33,7 +33,6 @@ export function userInfo(info) {
   return { type: USERINFO, info };
 }
 export function userInfototal(infototal) {
-  console.log(infototal);
   return { type: USERINFOTOTAL, infototal };
 }
 
@@ -64,7 +63,6 @@ export const loginAxios = (userEmail, password) => {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         dispatch(login(userEmail));
-        console.log(login(res));
         success = true;
       })
       .catch((err) => {
@@ -93,7 +91,6 @@ export const checkUserValidation = () => {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "user/LOGIN": {
-      console.log("들어옴");
       const newUserInfo = {
         userEmail: action.id,
         is_login: true,

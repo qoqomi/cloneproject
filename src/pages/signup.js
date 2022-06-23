@@ -98,11 +98,11 @@ function SignUp() {
     navigate("/signupImg");
   };
 
-  // const onCheckEnter = (e) => {
-  //   if (e.key === "Enter") {
-  //     signupOnClick();
-  //   }
-  // };
+  const onKeyPressSingup = (e) => {
+    if (e.key === "Enter") {
+      signupOnClick();
+    }
+  };
 
   return (
     <LoginTemplate>
