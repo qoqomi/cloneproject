@@ -55,7 +55,11 @@ export const goodPeopleAxios = (selectId, select) => {
         dispatch(goodPeople(post));
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 402) {
+          dispatch(loadPeopleAxios());
+        } else {
+          console.log(err);
+        }
       });
   };
 };
@@ -83,7 +87,11 @@ export const badPeopleAxios = (selectId, select) => {
         dispatch(badPeople(post));
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 402) {
+          dispatch(loadPeopleAxios());
+        } else {
+          console.log(err);
+        }
       });
   };
 };
