@@ -25,9 +25,9 @@ function SignupImg() {
     const file = e.target.files;
 
     setFiles(file);
+
     //fileReader
     setFilesImg(e.target.files[0]);
-
     reader.readAsDataURL(e.target.files[0]);
 
     return new Promise((resolve) => {
