@@ -11,6 +11,7 @@
 
 ## 플랫폼소개
 
+사랑을 하고 싶으신가요? 여러 사람의 정보를 좋아요하고 같이 매칭된 사람과 대화해 봐요 !
 <a href="http://hyunbeen.myweek.s3-website.ap-northeast-2.amazonaws.com/" target="http://hyunbeen.myweek.s3-website.ap-northeast-2.amazonaws.com/"></a>
 
  <br>

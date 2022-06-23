@@ -62,7 +62,7 @@ function SignUp() {
     else setuserAgeError(true);
     setUserAge(e.target.value);
   };
-
+  //ReadMe
   const signupOnClick = async () => {
     if (
       userEmail === "" ||
