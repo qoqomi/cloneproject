@@ -9,11 +9,18 @@ import { useSelector } from "react-redux";
 
 function Login() {
   const person = useSelector((state) => state.people.persons);
+  const isLogin = useSelector((state) => state.user.userInfo.is_login);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const usernameRef = React.useRef(null);
   const passwordRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (isLogin) {
+      navigate("/main");
+    }
+  }, [isLogin]);
 
   const loginFB = async () => {
     if (
@@ -47,6 +54,7 @@ function Login() {
   const onKeyPressLigin = (e) => {
     if (e.key == "loginFB") {
       loginFB();
+
     }
   };
 

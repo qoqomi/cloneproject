@@ -6,8 +6,7 @@ import { checkUserValidation } from "./modules/user";
 
 function App() {
   const dispatch = useDispatch();
-  const isLogin = useSelector((state) => state.user.userinfo.is_login);
-  console.log(isLogin);
+  const isLogin = useSelector((state) => state.user.userInfo.is_login);
 
   React.useEffect(() => {
     if (isLogin === false) {

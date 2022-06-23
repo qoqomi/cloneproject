@@ -45,6 +45,10 @@ function SignupImg() {
   });
 
   const signuptotalOnClick = async () => {
+    if (files === "" || null) {
+      alert("사진을 올려주세요!");
+      return false;
+    }
     frm.append("userEmail", signData.userEmail);
     frm.append("password", signData.password);
     frm.append("userName", signData.userName);
