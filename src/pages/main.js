@@ -26,12 +26,10 @@ function Main() {
 
   React.useEffect(() => {
     if (isLogin === null) {
-      console.log("null");
       dispatch(checkUserValidation());
       return;
     }
     if (!isLogin) {
-      console.log("false");
       navigate("/");
     }
   }, [isLogin]);
@@ -65,10 +63,10 @@ function Main() {
               backgroundImage: `url(${person.length > 0 ? personImage : ""})`,
             }}
           >
-            <div>
+            <NameCover>
               <H3>{person.length > 0 ? person[0].userName : ""}</H3>
               <H4>{person.length > 0 ? person[0].userAge : ""}</H4>
-            </div>
+            </NameCover>
           </OneCard>
         </Div>
         <ButtonDiv>
@@ -141,21 +139,25 @@ const OneCard = styled.div`
   background-position: center;
 `;
 
-const H3 = styled.h3`
+const NameCover = styled.div`
   position: absolute;
-  font-size: 24px;
-  font-weight: bold;
   left: 20px;
   margin-top: 600px;
   bottom: 20px;
+  display: flex;
+`;
+
+const H3 = styled.h3`
+  font-size: 24px;
+  font-weight: bold;
   color: white;
+  text-shadow: 1px 1px 1px #000;
 `;
 const H4 = styled.h4`
-  position: absolute;
-  font-size: 20px;
+  font-size: 25px;
   color: white;
-  margin-top: 600px;
-  margin-left: 30px;
+  text-shadow: 1px 1px 1px #000;
+  margin-left: 15px;
 `;
 const ButtonDiv = styled.div`
   display: flex;
