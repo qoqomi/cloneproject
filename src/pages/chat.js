@@ -18,6 +18,7 @@ function Chat() {
 
   const otherInfo = useSelector((state) => state.chatInfo.otherInfo);
   const isLogin = useSelector((state) => state.user.userInfo.is_login);
+  const chatlist = useSelector((state) => state.chatInfo.chat);
 
   React.useEffect(() => {
     if (isLogin === null) {
@@ -62,8 +63,6 @@ function Chat() {
     document.getElementById("chatArea").scrollTop =
       document.getElementById("chatArea").scrollHeight;
   }, [chatlist]);
-
-  const chatlist = useSelector((state) => state.chatInfo.chat);
 
   const sendMessage = () => {
     if (inputCurrent.current.value === "" || null) {
