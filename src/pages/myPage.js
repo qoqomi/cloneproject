@@ -7,7 +7,7 @@ import {
   cleanMyInfo,
   modifyMyInfoAxios,
 } from "../modules/myInfo";
-import { checkUserValidation } from "../modules/user";
+import { checkUserValidation, logOut } from "../modules/user";
 import { useNavigate } from "react-router-dom";
 import { apis } from "../shared/api";
 import { categories } from "../shared/category";
@@ -112,7 +112,7 @@ function MyPage() {
       </ProfileCover>
       <LogoutBtn
         onClick={() => {
-          localStorage.removeItem("token");
+          dispatch(logOut());
           navigate("/");
         }}
       >

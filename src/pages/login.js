@@ -54,7 +54,6 @@ function Login() {
   const onKeyPressLigin = (e) => {
     if (e.key == "loginFB") {
       loginFB();
-
     }
   };
 

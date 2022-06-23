@@ -104,7 +104,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
     case "user/LOGOUT": {
-      deleteCookie("JWTToken");
+      localStorage.removeItem("token");
       const newUserInfo = {
         userEmail: null,
         is_login: false,

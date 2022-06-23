@@ -32,7 +32,7 @@ function ChatList() {
 
   React.useEffect(() => {
     dispatch(ChatListAxios(id));
-  }, []);
+  }, [isLogin]);
 
   const gotoChatroom = async (other) => {
     await dispatch(getRoomIdAxios(id, other)).then((res) => {
